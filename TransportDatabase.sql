@@ -61,7 +61,7 @@ CREATE TABLE Schedule(
     StartTime TIMESTAMP NOT NULL, 
     EndTime TIMESTAMP NOT NULL, 
     Frequency NUMBER(4) CHECK (Frequency > 0), 
-    DayType CHAR(20) NOT NULL CHECK (DayType IN ('Weekday', 'Weekend', 'Holiday')),
+    DayType VARCHAR(20) NOT NULL CHECK (DayType IN ('Weekday', 'Weekend', 'Holiday')),
     PRIMARY KEY (RouteID, StartTime, DayType),
     FOREIGN KEY (RouteID) REFERENCES Route(RouteID))
 
