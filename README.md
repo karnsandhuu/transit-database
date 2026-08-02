@@ -65,7 +65,6 @@ Primary responsibilities:
 Primary responsibilities:
 
 - Maintain and test the database setup SQL script.
-- Ensure every table contains at least 5 valid tuples.
 - Implement Passenger, Passes, ZonePass, and TimedPass functionality.
 - Create corresponding passenger/pass GUI forms and result tables.
 - Implement passenger entry functionality.
