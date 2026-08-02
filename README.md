@@ -115,12 +115,12 @@ The main remaining challenge is integrating the frontend, Node.js backend, and O
 
 Other areas that will require attention include:
 
-- Visual representation of routs
 - Ensuring the SQL setup script runs in the correct order because of foreign-key dependencies.
 - Ensuring all sample tuples satisfy database constraints.
 - Correctly handling invalid user input.
 - Keeping frontend and backend naming consistent with the relational schema.
 - Displaying query results clearly in the GUI.
+- Visual representation of routs
 - Coordinating code developed by different team members without introducing merge conflicts.
 - Testing the complete application after all individual components have been integrated.
 - Fixing other design issues that have been present since M1
