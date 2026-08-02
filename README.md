@@ -13,7 +13,6 @@ Our team will use an **end-to-end development approach**, where each member is r
 The frontend will use HTML and JavaScript, while the backend will use Node.js with the `oracledb` driver to communicate directly with the department-provided Oracle database.
 
 ### Development Timeline
-Note: Member names are in alphabetical order; name order does not indicate degree of contribution
 
 | Deadline | Task | Assigned Member(s) | Expected Result |
 |---|---|---|---|
@@ -28,7 +27,7 @@ Note: Member names are in alphabetical order; name order does not indicate degre
 | **Aug 7-12th** | Build GUI forms and tables for passenger and transit pass functionality | Karn | Passenger and pass information can be viewed and managed through the GUI |
 | **Aug 7-12th** | Implement TransportStation, Gate, Zone, and RouteStop backend operations | Carina | Backend can retrieve and modify station, gate, zone, and route-stop information |
 | **Aug 7-12th** | Build GUI forms and tables for station, gate, zone, and route-stop functionality | Carina | Station-related information can be viewed and managed through the GUI |
-| **Aug 13** | Implement passenger entry and exit functionality using `PassEnter` and `PassExit` | Karn + Carina | The system can record passengers entering and exiting stations through gates |
+| **Aug 13** | Implement passenger entry and exit functionality using `PassEnter` and `PassExit` | Carina Karn | The system can record passengers entering and exiting stations through gates |
 | **Aug 14** | Implement route/vehicle and pass/zone relationship functionality such as `RunsOn`, `ValidEntranceAt`, and `ValidExitAt` | Saksham + Karn | Relationship tables can be queried and updated correctly |
 | **Aug 15** | Create GUI functionality for database insertion, deletion, and updating operations | Saksham, Karn, Carina | Users can perform database modifications through the interface rather than manually executing SQL |
 | **Aug 16** | Implement project query functionality and display query results in GUI tables | Saksham, Karn, Carina | Required database queries can be executed through the application and their results are displayed clearly |
