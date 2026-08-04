@@ -12,33 +12,35 @@ Our team will use an **end-to-end development approach**, where each member is r
 
 The frontend will use HTML and JavaScript, while the backend will use Node.js with the `oracledb` driver to communicate directly with the department-provided Oracle database.
 
-### Development Timeline
+## Development Timeline
 
 | Deadline | Task | Assigned Member(s) | Expected Result |
 |---|---|---|---|
-| **Aug 3** | Test the complete SQL setup script on the department Oracle database and resolve foreign-key, constraint, or insertion-order problems | Karn, Saksham | Database can be created from scratch and populated successfully |
-| **Aug 3** | Set up the Node.js backend and Oracle database connection using `oracledb` | Saksham | Backend successfully connects to the Oracle database |
-| **Aug 4-6** | Create the basic GUI structure, navigation menu, page layout, forms, buttons, and result-table components | Carina | Users can navigate between major parts of the transit management system |
-| **Aug 7-12th** | Implement Transport, Bus, SubwayTrain, and Route backend operations | Saksham | Backend can retrieve and modify vehicle and route information |
-| **Aug 7-12th** | Build GUI forms and tables for Transport, Bus, SubwayTrain, and Route functionality | Saksham | Vehicle and route data can be viewed and managed through the GUI |
-| **Aug 7-12th** | Implement Passenger, Passes, ZonePass, and TimedPass backend operations | Karn | Backend can retrieve and modify passenger and transit pass information |
-| **Aug 7-12th** | Build GUI forms and tables for passenger and transit pass functionality | Karn | Passenger and pass information can be viewed and managed through the GUI |
-| **Aug 7-12th** | Implement TransportStation, Gate, Zone, and RouteStop backend operations | Carina | Backend can retrieve and modify station, gate, zone, and route-stop information |
-| **Aug 7-12th** | Build GUI forms and tables for station, gate, zone, and route-stop functionality | Carina | Station-related information can be viewed and managed through the GUI |
-| **Aug 13** | Implement passenger entry and exit functionality using `PassEnter` and `PassExit` | Carina, Karn | The system can record passengers entering and exiting stations through gates |
-| **Aug 14** | Implement route/vehicle and pass/zone relationship functionality such as `RunsOn`, `ValidEntranceAt`, and `ValidExitAt` | Saksham, Karn | Relationship tables can be queried and updated correctly |
-| **Aug 15** | Create GUI functionality for database insertion, deletion, and updating operations | Saksham, Karn, Carina | Users can perform database modifications through the interface rather than manually executing SQL |
-| **Aug 16** | Implement project query functionality and display query results in GUI tables | Saksham, Karn, Carina | Required database queries can be executed through the application and their results are displayed clearly |
-| **Aug 17** | Connect all frontend components to their corresponding backend/database operations | Saksham, Karn, Carina | Complete frontend-to-database workflow is functional |
-| **Aug 18** | Add input validation and user-friendly success/error messages | Carina, Karn | Invalid input is handled safely and users receive clear feedback |
-| **Aug 19** | Test primary keys, foreign keys, constraints, inserts, updates, deletes, and query results | Karn , Saksham | Database operations behave correctly and maintain data integrity |
-| **Aug 20** | Full GUI and integration testing across all pages | Saksham, Karn, Carina | Navigation, forms, buttons, database operations, and result displays work together correctly |
-| **Aug 21** | Fix bugs found during integration testing and improve GUI consistency | Saksham, Karn, Carina | Stable and consistent version of the application |
-| **Aug 22** | Prepare realistic database tuples and demonstration scenarios | Karn, Carina | Database contains useful examples that demonstrate the main application features |
-| **Aug 23** | Perform a complete project demo from database setup through frontend operations | Saksham, Karn, Carina | Team confirms that the project works from a clean database setup |
-| **Aug 24** | Final code cleanup, comments, README updates, and repository organization | Saksham | Repository is organized and understandable for grading |
-| **Aug 25** | Final team testing and demo rehearsal | Saksham, Karn, Carina | Every member understands the project and can explain/demo their work |
-| **Aug 26** | Final backup deadline for unresolved bugs and final repository commits | Saksham, Karn, Carina | Final working version is committed and ready for submission/demo |
+| Aug 3 | Test the complete SQL setup script on the department Oracle database and resolve foreign-key, constraint, or insertion-order problems | Karn, Saksham | Database can be created from scratch and populated successfully |
+| Aug 3 | Set up the Node.js backend and Oracle database connection using `oracledb` | Saksham | Backend successfully connects to the Oracle database |
+| Aug 4-5 | Create the basic GUI structure, navigation menu, page layout, forms, buttons, and result-table components | Carina | Users can navigate between major parts of the transit management system |
+| Aug 5-7 | Implement Transport, Bus, SubwayTrain, and Route backend operations | Saksham | Backend can retrieve and modify vehicle and route information |
+| Aug 5-7 | Build GUI forms and tables for Transport, Bus, SubwayTrain, and Route functionality | Saksham | Vehicle and route data can be viewed and managed through the GUI |
+| Aug 5-7 | Implement Passenger, Passes, ZonePass, and TimedPass backend operations | Karn | Backend can retrieve and modify passenger and transit pass information |
+| Aug 5-7 | Build GUI forms and tables for passenger and transit pass functionality | Karn | Passenger and pass information can be viewed and managed through the GUI |
+| Aug 5-7 | Implement TransportStation, Gate, Zone, and RouteStop backend operations | Carina | Backend can retrieve and modify station, gate, zone, and route-stop information |
+| Aug 5-7 | Build GUI forms and tables for station, gate, zone, and route-stop functionality | Carina | Station-related information can be viewed and managed through the GUI |
+| Aug 8 | Implement passenger entry and exit functionality using PassEnter and PassExit | Carina, Karn | The system can record passengers entering and exiting stations through gates |
+| Aug 8 | Implement route/vehicle and pass/zone relationship functionality such as RunsOn, ValidEntranceAt, and ValidExitAt | Saksham, Karn | Relationship tables can be queried and updated correctly |
+| Aug 9 | Create GUI functionality for database insertion, deletion, and updating operations | Saksham, Karn, Carina | Users can perform database modifications through the interface rather than manually executing SQL |
+| Aug 9 | Implement project query functionality and display query results in GUI tables | Saksham, Karn, Carina | Required database queries can be executed through the application and their results are displayed clearly |
+| Aug 9 | Connect all frontend components to their corresponding backend/database operations | Saksham, Karn, Carina | Complete frontend-to-database workflow is functional |
+| Aug 10 | Add input validation and user-friendly success/error messages | Carina, Karn | Invalid input is handled safely and users receive clear feedback |
+| Aug 10 | Test primary keys, foreign keys, constraints, inserts, updates, deletes, and query results | Karn, Saksham | Database operations behave correctly and maintain data integrity |
+| Aug 10 | Full GUI and integration testing across all pages | Saksham, Karn, Carina | Navigation, forms, buttons, database operations, and result displays work together correctly |
+| Aug 10 | Fix bugs found during integration testing and improve GUI consistency | Saksham, Karn, Carina | Stable and consistent version of the application |
+| Aug 10 | Prepare realistic database tuples and demonstration scenarios | Karn, Carina | Database contains useful examples that demonstrate the main application features |
+| Aug 10 | Perform a complete project demo from database setup through frontend operations | Saksham, Karn, Carina | Team confirms that the project works from a clean database setup |
+| Aug 10 | Final code cleanup, comments, README updates, and repository organization | Saksham | Repository is organized and understandable for grading |
+| **Aug 11 - Milestone 4** | Final team testing, resolve remaining critical bugs, and make final repository commits | Saksham, Karn, Carina | Final working version is committed and ready for Milestone 4 submission |
+| Aug 12 | Final demo rehearsal using the unchanged Milestone 4 submission | Saksham, Karn, Carina | Every member understands the project and can explain and demonstrate their work |
+| **Aug 13 - Milestone 5** | Perform the group project demo | Saksham, Karn, Carina | Team successfully demonstrates the submitted project and required database functionality |
+| **Aug 13 - Milestone 6** | Complete individual and peer assessment | Each member individually | Each member submits their individual peer and self-assessment |
 
 ---
 
