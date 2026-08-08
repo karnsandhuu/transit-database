@@ -61,10 +61,20 @@ async function getPassengerPasses(req, res) {
 
     return res.json(passes);
 }
+async function deletePass(req, res) {
+    const passengerId = req.params.passengerId;
+    const passId = req.params.passId;
+    const result = await passService.deletePass(passengerId, passId);
+    if (!result.success) {
+        return res.status(400).json({ success: false });
+    }
+    return res.json(result);
+}
 
 
 module.exports = {
     purchasePass,
     topUpTimedPass,
     getPassengerPasses,
+    deletePass
 };

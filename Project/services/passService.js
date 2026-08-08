@@ -508,9 +508,72 @@ async function getPassesByPassengerId(passengerId) {
     });
 }
 
+async function deletePass(passengerId, ticketId) {
+    return await withOracleDB(async (connection) => {
+        try {
+            // Check that the pass belongs to the passenger
+            const passResult = await connection.execute(
+                `SELECT TicketID
+                 FROM Passes
+                 WHERE TicketID = :ticketId
+                 AND PassengerID = :passengerId`,
+                {
+                    ticketId,
+                    passengerId
+                }
+            );
+
+            if (passResult.rows.length === 0) {
+                return { success: false };
+            }
+
+            // Delete from ZonePass if it exists
+            await connection.execute(
+                `DELETE FROM ZonePass
+                 WHERE TicketID = :ticketId`,
+                { ticketId }
+            );
+
+            // Delete from TimedPass if it exists
+            await connection.execute(
+                `DELETE FROM TimedPass
+                 WHERE TicketID = :ticketId`,
+                { ticketId }
+            );
+
+            // Delete the parent Passes record
+            const result = await connection.execute(
+                `DELETE FROM Passes
+                 WHERE TicketID = :ticketId
+                 AND PassengerID = :passengerId`,
+                {
+                    ticketId,
+                    passengerId
+                }
+            );
+
+            await connection.commit();
+
+            return {
+                success: result.rowsAffected > 0
+            };
+
+        } catch (err) {
+            await connection.rollback();
+            throw err;
+        }
+    }).catch((err) => {
+        console.log('Error deleting pass:', err.message);
+        return {
+            success: false
+        };
+    });
+}
+
 module.exports = {
     purchasePassForPassenger,
+    getPassesByPassengerId,
     getAllPasses,
     topUpTimedPass,
-    getPassesByPassengerId
+    deletePass
 };

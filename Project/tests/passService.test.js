@@ -205,6 +205,70 @@ async function testTopUpTimedPass() {
     }
 }
 
+async function testDeletePass() {
+    console.log('Testing deletePass...');
+
+    // Create a test passenger
+    const passengerId = await createTestPassenger();
+
+    try {
+        // Purchase a test pass
+        const purchaseResult = await passService.purchasePassForPassenger(
+            passengerId,
+            'Timed',
+            10.00,
+            null,
+            'Daily'
+        );
+
+        if (!purchaseResult.success) {
+            throw new Error('Failed to purchase test pass');
+        }
+
+        const ticketId = purchaseResult.ticketId;
+        //console.log(`Purchased test pass with ticket ID: ${ticketId}`);
+
+        // Verify that the pass exists
+        const passesBeforeDelete =
+            await passService.getPassesByPassengerId(passengerId);
+
+        const passExists = passesBeforeDelete.some(
+            pass => pass.ticketId === ticketId
+        );
+
+        if (!passExists) {
+            throw new Error('Test pass was not created');
+        }
+
+        // Delete the pass
+        const deleteResult = await passService.deletePass(
+            passengerId,
+            ticketId
+        );
+
+        if (!deleteResult.success) {
+            throw new Error('deletePass returned success: false');
+        }
+
+        // Verify that the pass was deleted
+        const passesAfterDelete =
+            await passService.getPassesByPassengerId(passengerId);
+
+        const passStillExists = passesAfterDelete.some(
+            pass => pass.ticketId === ticketId
+        );
+
+        if (passStillExists) {
+            throw new Error('Pass was not deleted');
+        }
+
+        console.log('✓ delete pass');
+    } finally {
+    }
+}
+
+
+
 /*
 
 * Run all pass service tests
@@ -245,4 +309,6 @@ module.exports = async function runPassTests() {
         'top up Timed Pass',
         testTopUpTimedPass
     );
+
+    await testDeletePass()
 };

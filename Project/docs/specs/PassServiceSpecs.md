@@ -174,6 +174,102 @@ Returns an array of pass objects:
 ```
 
 If an error occurs, an empty array is returned.
+----
+
+## `deletePass()`
+
+### Purpose
+
+Deletes a specific pass belonging to a passenger.
+
+The function verifies that the specified pass belongs to the specified passenger before deleting it. This prevents a passenger from deleting a pass belonging to another passenger.
+
+### Parameters
+
+| Parameter | Type | Required | Description |
+|---|---|---|---|
+| `passengerId` | String | Yes | ID of the passenger who owns the pass |
+| `passId` | String | Yes | ID of the pass to delete |
+
+### Behaviour
+
+The function:
+
+1. Searches for the specified pass using the provided `passId`.
+2. Verifies that the pass belongs to the specified `passengerId`.
+3. Deletes the pass if the passenger owns it.
+4. Commits the deletion.
+5. Returns a successful result if the pass was deleted.
+
+If the specified pass does not exist, does not belong to the passenger, or the database operation fails, the function returns a failed result.
+
+### Successful return
+
+```javascript
+{
+    success: true
+}
+```
+
+### Failed return
+
+```javascript
+{
+    success: false
+}
+```
+
+A failure may occur if:
+
+- The pass does not exist.
+- The pass does not belong to the specified passenger.
+- The passenger ID is invalid.
+- The pass ID is invalid.
+- A database error occurs.
+
+### Database Behaviour
+
+The deletion should only occur when both the pass ID and passenger ID match:
+
+```sql
+DELETE FROM Passes
+WHERE TicketID = :passId
+  AND PassengerID = :passengerId
+```
+
+This ensures that a passenger cannot delete another passenger's pass.
+
+### Transaction Behaviour
+
+The deletion is committed only after the database operation succeeds.
+
+If the database operation fails, the transaction is rolled back and:
+
+```javascript
+{
+    success: false
+}
+```
+
+is returned.
+
+---
+
+# Controller Responsibilities
+
+The `deletePass()` service function is exposed through the pass controller using:
+
+```text
+DELETE /passengers/:passengerId/passes/:passId
+```
+
+The controller:
+
+1. Reads `passengerId` from the URL parameters.
+2. Reads `passId` from the URL parameters.
+3. Calls `passService.deletePass(passengerId, passId)`.
+4. Returns `200 OK` if the deletion succeeds.
+5. Returns `400 Bad Request` if the deletion fails.
 
 ---
 
@@ -429,6 +525,7 @@ The functions exposed to other parts of the application are:
 | `purchasePassForPassenger()` | Purchase a Zone or Timed Pass |
 | `topUpTimedPass()` | Extend an existing timed pass |
 | `getPassesByPassengerId()` | Retrieve a passenger's passes |
+| `deletePass()` | delete a passenger's pass |
 | `getAllPasses()` | Retrieve all passes for testing |
 
 The following functions remain internal implementation details:

@@ -12,3 +12,8 @@ router.get(
     '/passengers/:passengerId/passes',
     controller.getPassengerPasses
 );
+
+router.delete(
+    '/passengers/:passengerId/passes/:passId',
+    controller.deletePass
+);

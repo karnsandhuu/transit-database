@@ -2,7 +2,12 @@
 
 ## Overview
 
-The Pass API provides the frontend with operations for purchasing passes, topping up timed passes, and viewing the passes belonging to a passenger.
+The Pass API provides the frontend with operations for:
+
+- Purchasing passes
+- Topping up timed passes
+- Viewing the passes belonging to a passenger
+- Deleting a specific pass belonging to a passenger
 
 The API communicates with the pass service through the pass controller.
 
@@ -14,7 +19,7 @@ The API communicates with the pass service through the pass controller.
 
 ---
 
-## 1. Purchase a Pass
+# 1. Purchase a Pass
 
 ### Endpoint
 
@@ -272,6 +277,71 @@ If an error occurs while retrieving the passenger's passes, the service currentl
 
 ---
 
+# 4. Delete a Pass
+
+### Endpoint
+
+```http
+DELETE /passengers/:passengerId/passes/:passId
+```
+
+### Purpose
+
+Allows a passenger to delete a specific pass belonging to them.
+
+The passenger ID and pass ID are both provided in the URL. The service verifies that the specified pass belongs to the specified passenger before deleting it.
+
+### Path Parameters
+
+| Parameter | Type | Description |
+|---|---|---|
+| `passengerId` | String | ID of the passenger who owns the pass |
+| `passId` | String | ID of the pass to delete |
+
+### Request Body
+
+None.
+
+### Behaviour
+
+When a delete request is received:
+
+1. The service searches for the specified pass.
+2. It verifies that the pass belongs to the specified passenger.
+3. If the pass belongs to the passenger, the pass is deleted.
+4. If the pass does not belong to the passenger, no pass is deleted.
+
+This prevents a passenger from deleting another passenger's pass.
+
+### Successful Response
+
+**Status:** `200 OK`
+
+```json
+{
+    "success": true
+}
+```
+
+### Failed Response
+
+**Status:** `400 Bad Request`
+
+```json
+{
+    "success": false
+}
+```
+
+This may occur if:
+
+- The pass does not exist.
+- The pass does not belong to the specified passenger.
+- The passenger ID is invalid.
+- The database operation fails.
+
+---
+
 # API Design Notes
 
 ## Ticket IDs
@@ -331,6 +401,22 @@ Timed
 
 This prevents the frontend from having to provide irrelevant information.
 
+## Pass Deletion
+
+Pass deletion requires both the passenger ID and pass ID:
+
+```http
+DELETE /passengers/:passengerId/passes/:passId
+```
+
+For example:
+
+```http
+DELETE /passengers/P000000001/passes/T000000001
+```
+
+The passenger ID is used to ensure that the passenger can only delete their own pass.
+
 ## Internal Functions
 
 The following service functions are not exposed as API endpoints:
@@ -344,7 +430,7 @@ The following service functions are not exposed as API endpoints:
 - `deleteInactiveZonePasses()`
 - `updateExpiredTimedPasses()`
 
-They are internal implementation details of the pass service.
+The pass deletion service function is also an internal implementation detail and is exposed to the frontend only through the `DELETE /passengers/:passengerId/passes/:passId` endpoint.
 
 ## Testing Function
 
