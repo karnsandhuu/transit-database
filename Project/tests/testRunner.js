@@ -10,7 +10,8 @@ async function run() {
     //await require('./databaseService.test')();
     //await require('./passengerService.test')();
     //await require('./passService.test')();
-    await require('./gateService.test')();
+    //await require('./gateService.test')();
+    await require('./routeServices.test')();
     await closePoolAndExit();
 
 }

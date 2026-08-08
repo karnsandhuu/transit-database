@@ -181,18 +181,18 @@ CREATE TABLE Route (
     Colour              VARCHAR2(20),
 
     CONSTRAINT PK_Route
-        PRIMARY KEY (RouteID)
+        PRIMARY KEY (RouteID),
 
-    Constraint UQ_Route_Number
+    CONSTRAINT UQ_Route_Number
         UNIQUE (RouteNumber)
 );
 
 
 CREATE TABLE Schedule (
-    RouteID       VARCHAR2(10)        NOT NULL,
-    StartTime     TIMESTAMP       NOT NULL,
+    RouteID       VARCHAR2(10)    NOT NULL,
+    StartTime     VARCHAR2(5)     NOT NULL,
     DayType       VARCHAR2(20)    NOT NULL,
-    EndTime       TIMESTAMP       NOT NULL,
+    EndTime       VARCHAR2(5)     NOT NULL,
     Frequency     NUMBER(4)       NOT NULL,
 
     CONSTRAINT PK_Schedule
@@ -218,8 +218,21 @@ CREATE TABLE Schedule (
             )
         ),
 
-    CONSTRAINT CHK_Schedule_Times
-        CHECK (EndTime > StartTime)
+    CONSTRAINT CHK_Schedule_StartTime
+        CHECK (
+            REGEXP_LIKE(
+                StartTime,
+                '^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'
+            )
+        ),
+
+    CONSTRAINT CHK_Schedule_EndTime
+        CHECK (
+            REGEXP_LIKE(
+                EndTime,
+                '^(0[0-9]|1[0-9]|2[0-3]):[0-5][0-9]$'
+            )
+        )
 );
 
 
