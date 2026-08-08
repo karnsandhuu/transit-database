@@ -174,14 +174,17 @@ CREATE TABLE TimedPass (
 
 
 CREATE TABLE Route (
-    RouteID             VARCHAR2(10)         NOT NULL,
+    RouteID             VARCHAR2(10)     NOT NULL,
+    RouteNumber         NUMBER(3)        NOT NULL,
     RouteName           VARCHAR2(60)     NOT NULL,
-    Direction           VARCHAR2(20)     NOT NULL,
     RouteDescription    VARCHAR2(200),
     Colour              VARCHAR2(20),
 
     CONSTRAINT PK_Route
         PRIMARY KEY (RouteID)
+
+    Constraint UQ_Route_Number
+        UNIQUE (RouteNumber)
 );
 
 
