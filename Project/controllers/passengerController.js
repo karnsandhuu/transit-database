@@ -14,27 +14,37 @@ async function createPassenger(req, res) {
 
 async function getPassenger(req, res) {
     const { passengerId } = req.params;
+    const { attributes } = req.body;
 
-    const passenger = await passengerService.getPassengerById(
-        passengerId
-    );
+    try {
+        const passenger =
+            await passengerService.getPassengerById(
+                passengerId,
+                attributes
+            );
 
-    if (passenger) {
-        res.json(passenger);
-    } else {
-        res.status(404).json({
-            message: "Passenger not found"
+        if (!passenger) {
+            return res.status(404).json({
+                message: "Passenger not found"
+            });
+        }
+
+        return res.json(passenger);
+
+    } catch (err) {
+        return res.status(400).json({
+            message: err.message
         });
     }
 }
 
-async function updatePassengerType(req, res) {
+async function updatePassengerCategory(req, res) {
     const { passengerId } = req.params;
-    const { passengerType } = req.body;
+    const { passengerCategory } = req.body;
 
-    const success = await passengerService.updatePassengerType(
+    const success = await passengerService.updatePassengerCategory(
         passengerId,
-        passengerType
+        passengerCategory
     );
 
     if (success) {
@@ -44,7 +54,7 @@ async function updatePassengerType(req, res) {
     } else {
         res.status(404).json({
             success: false,
-            message: "Passenger not found or unable to update type"
+            message: "Passenger not found or unable to update category"
         });
     }
 }
@@ -52,6 +62,6 @@ async function updatePassengerType(req, res) {
 module.exports = {
     createPassenger,
     getPassenger,
-    updatePassengerType
+    updatePassengerCategory
 };
 

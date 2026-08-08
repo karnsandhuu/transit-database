@@ -135,13 +135,40 @@ P000000006
 
 Retrieves a single passenger using their unique passenger ID.
 
+The function supports **projection**, allowing the caller to specify which passenger attributes should be returned and the order in which they should be retrieved.
+
 ### Parameters
 
 | Parameter | Type | Required | Description |
 |---|---|---|---|
 | `passengerId` | String | Yes | Unique ID of the passenger |
+| `attributes` | Array of Strings | No | Attributes to retrieve, in the desired order. If omitted, all supported attributes are returned in the default order. |
+
+### Supported Attributes
+
+| Attribute | Database Column | Description |
+|---|---|---|
+| `passengerId` | `PassengerID` | Unique ID of the passenger |
+| `firstName` | `FirstName` | Passenger's first name |
+| `lastName` | `LastName` | Passenger's last name |
+| `passengerCategory` | `PassengerCategory` | Passenger's category |
+
+### Default Attributes
+
+If `attributes` is not provided, the function retrieves:
+
+```javascript
+[
+    "passengerId",
+    "firstName",
+    "lastName",
+    "passengerCategory"
+]
+```
 
 ### Example
+
+Retrieve all passenger attributes:
 
 ```javascript
 const passenger = await getPassengerById(
@@ -149,18 +176,125 @@ const passenger = await getPassengerById(
 );
 ```
 
-### Return Value
-
-If the passenger exists:
+Example return value:
 
 ```javascript
 {
     passengerId: "P000000001",
     firstName: "John",
     lastName: "Smith",
-    passengerType: "Adult"
+    passengerCategory: "Adult"
 }
 ```
+
+### Projection Example
+
+The caller can specify a subset of attributes:
+
+```javascript
+const passenger = await getPassengerById(
+    "P000000001",
+    [
+        "lastName",
+        "passengerId"
+    ]
+);
+```
+
+The function generates a query that retrieves only the requested attributes:
+
+```sql
+SELECT LastName, PassengerID
+FROM Passenger
+WHERE PassengerID = :passengerId
+```
+
+The returned object contains only the selected attributes:
+
+```javascript
+{
+    lastName: "Smith",
+    passengerId: "P000000001"
+}
+```
+
+### Attribute Ordering
+
+The attributes are retrieved from the database in the same order as specified in the `attributes` array.
+
+For example:
+
+```javascript
+const passenger = await getPassengerById(
+    "P000000001",
+    [
+        "passengerCategory",
+        "lastName",
+        "passengerId"
+    ]
+);
+```
+
+results in a query equivalent to:
+
+```sql
+SELECT PassengerCategory, LastName, PassengerID
+FROM Passenger
+WHERE PassengerID = :passengerId
+```
+
+The returned object follows the requested attribute order:
+
+```javascript
+{
+    passengerCategory: "Adult",
+    lastName: "Smith",
+    passengerId: "P000000001"
+}
+```
+
+### Invalid Attributes
+
+If an attribute that is not supported is provided, the function throws an error.
+
+Example:
+
+```javascript
+await getPassengerById(
+    "P000000001",
+    [
+        "lastName",
+        "invalidAttribute"
+    ]
+);
+```
+
+The function throws:
+
+```text
+Invalid passenger attribute: invalidAttribute
+```
+
+### Empty Attribute List
+
+If an empty attribute array is provided:
+
+```javascript
+await getPassengerById(
+    "P000000001",
+    []
+);
+```
+
+the function returns:
+
+```javascript
+null
+```
+
+### Return Value
+
+If the passenger exists, returns a passenger object containing the requested attributes.
 
 If the passenger does not exist:
 
@@ -176,8 +310,77 @@ null
 
 ### Notes
 
-`PassengerID` is the primary key of the `Passenger` table and is therefore used to uniquely identify the passenger.
+- `PassengerID` is the primary key of the `Passenger` table and is used to uniquely identify the passenger.
+- Only attributes included in the `attributes` array are retrieved from the database.
+- The order of the attributes in the generated SQL query follows the order specified by the caller.
+- Attribute names are validated against a predefined list of supported attributes before being included in the SQL query.
+- This validation prevents arbitrary user input from being inserted into the SQL `SELECT` clause.
 
+---
+
+## `getAllPassengers()`
+
+### Purpose
+
+Retrieves all passengers currently stored in the `Passenger` table.
+
+### Parameters
+
+None.
+
+### Example
+
+```javascript
+const passengers = await getAllPassengers();
+```
+
+### Return Value
+
+Returns an array of passenger objects.
+
+Example:
+
+```javascript
+[
+    {
+        passengerId: "P000000001",
+        firstName: "John",
+        lastName: "Smith",
+        passengerCategory: "Adult"
+    },
+    {
+        passengerId: "P000000002",
+        firstName: "Alice",
+        lastName: "Brown",
+        passengerCategory: "Student"
+    }
+]
+```
+
+If no passengers exist:
+
+```javascript
+[]
+```
+
+If a database error occurs:
+
+```javascript
+[]
+```
+
+### Notes
+
+The function explicitly selects the following attributes:
+
+```text
+PassengerID
+FirstName
+LastName
+PassengerCategory
+```
+
+Unlike `getPassengerById()`, `getAllPassengers()` does not currently support user-selected projection.
 ---
 
 ## `getAllPassengers()`

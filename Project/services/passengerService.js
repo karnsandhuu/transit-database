@@ -57,26 +57,73 @@ async function generatePassengerID(connection) {
     return "P" + String(number).padStart(9, "0");
 }
 
-async function getPassengerById(passengerId) {
+async function getPassengerById(
+    passengerId,
+    attributes = [
+        'passengerId',
+        'firstName',
+        'lastName',
+        'passengerCategory'
+    ]
+) {
+    const allowedAttributes = {
+        passengerId: 'PassengerID',
+        firstName: 'FirstName',
+        lastName: 'LastName',
+        passengerCategory: 'PassengerCategory'
+    };
+
+    // Make sure at least one attribute was selected
+    if (!Array.isArray(attributes) || attributes.length === 0) {
+        return null;
+    }
+
+    // Make sure every requested attribute is valid
+    const columns = attributes.map(attribute => {
+        if (!allowedAttributes[attribute]) {
+            throw new Error(
+                `Invalid passenger attribute: ${attribute}`
+            );
+        }
+
+        return allowedAttributes[attribute];
+    });
+
     return await withOracleDB(async (connection) => {
-        const result = await connection.execute(
-            `SELECT * FROM PASSENGER WHERE PassengerID = :passengerId`,
-            [passengerId]
-        );
-        if (result.rows.length > 0) {
+        try {
+            const result = await connection.execute(
+                `
+                SELECT ${columns.join(', ')}
+                FROM Passenger
+                WHERE PassengerID = :passengerId
+                `,
+                {
+                    passengerId
+                }
+            );
+
+            if (result.rows.length === 0) {
+                return null;
+            }
+
             const row = result.rows[0];
-            return {
-                passengerId: row[0],
-                firstName: row[1],
-                lastName: row[2],
-                passengerType: row[3]
-            };
-        } else {
+
+            const passenger = {};
+
+            attributes.forEach((attribute, index) => {
+                passenger[attribute] = row[index];
+            });
+
+            return passenger;
+
+        } catch (err) {
+            console.log(
+                'Error retrieving passenger:',
+                err.message
+            );
+
             return null;
         }
-    }).catch((err) => {
-        console.log('Error retrieving passenger:', err.message);
-        return null;
     });
 }
 
@@ -96,7 +143,7 @@ async function getAllPassengers() {
             passengerId: row[0],
             firstName: row[1],
             lastName: row[2],
-            passengerType: row[3]
+            passengerCategory: row[3]
         }));
     }).catch((err) => {
         console.log('Error retrieving passengers:', err.message);
@@ -104,18 +151,18 @@ async function getAllPassengers() {
     });
 }
 
-async function updatePassengerType(passengerId, passengerType) {
+async function updatePassengerCategory(passengerId, passengerCategory) {
 
     return await withOracleDB(async (connection) => {
 
         const result = await connection.execute(
             `
             UPDATE Passenger
-            SET PassengerCategory = :passengerType
+            SET PassengerCategory = :passengerCategory
             WHERE PassengerID = :passengerId
             `,
             {
-                passengerType,
+                passengerCategory,
                 passengerId
             },
             {
@@ -136,6 +183,6 @@ module.exports = {
     insertPassenger,
     getPassengerById,
     getAllPassengers,
-    updatePassengerType
+    updatePassengerCategory
 };
 

@@ -15,7 +15,7 @@ router.get(
 
 router.patch(
     '/passengers/:passengerId/type',
-    controller.updatePassengerType
+    controller.updatePassengerCategory
 );
 
 module.exports = router;

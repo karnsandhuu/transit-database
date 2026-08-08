@@ -490,34 +490,54 @@ async function recordExit(connection, ticketId, gateId) {
     await connection.execute(
         `
         INSERT INTO PassExit
-        (
-            TicketID,
-            GateID
-        )
-        VALUES
-        (
-            :ticketId,
-            :gateId
-        )
-        `,
+    (
+        TicketID,
+        GateID
+    )
+VALUES
+    (
+            : ticketId,
+            : gateId
+    )
+    `,
         {
             ticketId,
             gateId
         }
     );
 
+    // Increment the gate's total entrance/exit count
     await connection.execute(
         `
         UPDATE Gate
         SET TotalEnterExitCount =
-            TotalEnterExitCount + 1
-        WHERE GateID = :gateId
-        `,
+    TotalEnterExitCount + 1
+        WHERE GateID = : gateId
+    `,
         {
             gateId
         }
     );
+
+    // Zone passes become inactive after exiting.
+    // Timed passes remain active until they expire.
+    await connection.execute(
+        `
+        UPDATE Passes
+        SET TravellingStatus = 'Inactive'
+        WHERE TicketID = : ticketId
+        AND TicketID IN(
+        SELECT TicketID
+            FROM ZonePass
+    )
+    `,
+        {
+            ticketId
+        }
+    );
 }
+
+
 
 module.exports = {
     insertGate,

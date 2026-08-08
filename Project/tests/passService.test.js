@@ -16,9 +16,8 @@ async function createTestPassenger() {
 }
 
 /*
-
 * Test purchasing a Zone Pass
-  */
+*/
 async function testPurchaseZonePass() {
     const passengerId = await createTestPassenger();
 
