@@ -62,7 +62,7 @@ async function clearDatabase() {
                     `DROP TABLE ${table} CASCADE CONSTRAINTS`
                 );
 
-                console.log(`Dropped ${table}`);
+                //console.log(`Dropped ${table}`);
 
             } catch (err) {
 
