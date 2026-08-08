@@ -170,7 +170,7 @@ async function purchaseTimedPass(
     return await withOracleDB(async (connection) => {
 
         try {
-            const ticketId = await purchasePass(
+            const ticketId = await insertPass(
                 connection,
                 passengerId,
                 amountPaid
@@ -298,7 +298,7 @@ async function topUpTimedPass(ticketId, amountPaid, passType) {
                 `
                 UPDATE Passes
                 SET
-                    AmountPaid = AmountPaid + :amountPaid
+                    AmountPaid = AmountPaid + :amountPaid,
                     TravellingStatus = 'Active'
                 WHERE TicketID = :ticketId
                 `,
