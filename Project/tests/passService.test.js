@@ -8,14 +8,11 @@ async function createTestPassenger() {
         'Passenger'
     );
 
-    ```
-if (!result.success) {
-    throw new Error('Failed to create test passenger');
-}
+    if (!result.success) {
+        throw new Error('Failed to create test passenger');
+    }
 
-return result.passengerId;
-```
-
+    return result.passengerId;
 }
 
 /*

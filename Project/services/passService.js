@@ -75,19 +75,23 @@ async function insertPass(
 
 async function generateTicketID(connection) {
     const result = await connection.execute(`
-        SELECT
-            MIN(LEVEL) AS next_number
-        FROM dual
-        CONNECT BY LEVEL <= (
-            SELECT NVL(MAX(TO_NUMBER(SUBSTR(TicketID, 2))), 0) + 1
-            FROM Passes
+        SELECT MIN(ticketNumber)
+        FROM (
+            SELECT LEVEL AS ticketNumber
+            FROM dual
+            CONNECT BY LEVEL <= (
+                SELECT NVL(
+                    MAX(TO_NUMBER(SUBSTR(TicketID, 2))),
+                    0
+                ) + 1
+                FROM Passes
+            )
         )
-        WHERE LEVEL NOT IN (
+        WHERE ticketNumber NOT IN (
             SELECT TO_NUMBER(SUBSTR(TicketID, 2))
             FROM Passes
         )
     `);
-
     const nextNumber = result.rows[0][0];
 
     return "T" + String(nextNumber).padStart(9, "0");
@@ -168,26 +172,12 @@ async function purchaseTimedPass(
     passType
 ) {
     return await withOracleDB(async (connection) => {
-
         try {
             const ticketId = await insertPass(
                 connection,
                 passengerId,
                 amountPaid
             );
-
-            const startTime = new Date();
-            const endTime = new Date(startTime);
-
-            if (passType === "Daily") {
-                endTime.setDate(endTime.getDate() + 1);
-            } else if (passType === "Weekly") {
-                endTime.setDate(endTime.getDate() + 7);
-            } else if (passType === "Monthly") {
-                endTime.setMonth(endTime.getMonth() + 1);
-            } else {
-                throw new Error("Invalid pass type");
-            }
 
             await connection.execute(
                 `
@@ -201,15 +191,20 @@ async function purchaseTimedPass(
                 VALUES
                 (
                     :ticketId,
-                    :startTime,
-                    :endTime,
+                    CURRENT_TIMESTAMP,
+                    CASE
+                        WHEN :passType = 'Daily'
+                            THEN CURRENT_TIMESTAMP + INTERVAL '1' DAY
+                        WHEN :passType = 'Weekly'
+                            THEN CURRENT_TIMESTAMP + INTERVAL '7' DAY
+                        WHEN :passType = 'Monthly'
+                            THEN CURRENT_TIMESTAMP + INTERVAL '1' MONTH
+                    END,
                     :passType
                 )
                 `,
                 {
                     ticketId,
-                    startTime,
-                    endTime,
                     passType
                 }
             );
@@ -222,7 +217,6 @@ async function purchaseTimedPass(
             };
 
         } catch (err) {
-
             await connection.rollback();
 
             console.log(
@@ -240,59 +234,27 @@ async function purchaseTimedPass(
 async function topUpTimedPass(ticketId, amountPaid, passType) {
     return await withOracleDB(async (connection) => {
         try {
-            // Check that the ticket belongs to a timed pass
-            const result = await connection.execute(
-                `
-                SELECT
-                    p.TravellingStatus,
-                    t.EndTime
-                FROM Passes p
-                JOIN TimedPass t
-                    ON p.TicketID = t.TicketID
-                WHERE p.TicketID = :ticketId
-                `,
-                { ticketId }
-            );
-
-            if (result.rows.length === 0) {
-                return {
-                    success: false
-                };
-            }
-
-            const currentEndTime = result.rows[0][1];
-
-            // Calculate the new end time
-            const newEndTime = new Date(currentEndTime);
-
-            if (passType === "Daily") {
-                newEndTime.setDate(newEndTime.getDate() + 1);
-            } else if (passType === "Weekly") {
-                newEndTime.setDate(newEndTime.getDate() + 7);
-            } else if (passType === "Monthly") {
-                newEndTime.setMonth(newEndTime.getMonth() + 1);
-            } else {
-                return {
-                    success: false
-                };
-            }
-
-            // Update the timed pass
             await connection.execute(
                 `
                 UPDATE TimedPass
                 SET
-                    EndTime = :newEndTime,
+                    EndTime =
+                        CASE
+                            WHEN :passType = 'Daily'
+                                THEN EndTime + INTERVAL '1' DAY
+                            WHEN :passType = 'Weekly'
+                                THEN EndTime + INTERVAL '7' DAY
+                            WHEN :passType = 'Monthly'
+                                THEN EndTime + INTERVAL '1' MONTH
+                        END,
                     PassType = :passType
                 WHERE TicketID = :ticketId
                 `,
                 {
-                    newEndTime,
                     passType,
                     ticketId
                 }
             );
-
             // Add the top-up payment to the existing amount
             await connection.execute(
                 `
