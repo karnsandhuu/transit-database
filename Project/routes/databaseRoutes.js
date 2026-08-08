@@ -6,3 +6,5 @@ router.get(
     '/database/check-db-connection',
     controller.checkConnection
 );
+
+module.exports = router;
