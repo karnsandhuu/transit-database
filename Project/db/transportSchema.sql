@@ -1,5 +1,18 @@
-CREATE TABLE Transport (
-    VehicleID                  VARCHAR2(10)    NOT NULL,
+CREATE TABLE TrainModel (
+    ModelName       VARCHAR2(40)    NOT NULL,
+    NumberOfCars    NUMBER(2)       NOT NULL,
+
+    CONSTRAINT PK_TrainModel
+        PRIMARY KEY (ModelName),
+
+    CONSTRAINT CHK_TrainModel_NumberOfCars
+        CHECK (NumberOfCars > 0)
+);
+
+CREATE TABLE SubwayTrain (
+    VehicleID        VARCHAR2(10)    NOT NULL,
+    TrainSetNumber   VARCHAR2(20)    NOT NULL,
+    ModelName        VARCHAR2(40)    NOT NULL,
     ManufactureYear            NUMBER(4)   NOT NULL,
     Capacity                   NUMBER(4)   NOT NULL,
     WheelchairAccessibility    CHAR(1)     NOT NULL,
@@ -14,59 +27,10 @@ CREATE TABLE Transport (
         CHECK (Capacity > 0),
 
     CONSTRAINT CHK_Transport_Wheelchair
-        CHECK (WheelchairAccessibility IN ('Y', 'N'))
-);
-
-CREATE TABLE TrainModel (
-    ModelName       VARCHAR2(40)    NOT NULL,
-    NumberOfCars    NUMBER(2)       NOT NULL,
-
-    CONSTRAINT PK_TrainModel
-        PRIMARY KEY (ModelName),
-
-    CONSTRAINT CHK_TrainModel_NumberOfCars
-        CHECK (NumberOfCars > 0)
-);
-
-CREATE TABLE Bus (
-    VehicleID       VARCHAR2(10)        NOT NULL,
-    LicencePlate    VARCHAR2(10)    NOT NULL,
-    HomeGarage      VARCHAR2(60),
-    FuelType        VARCHAR2(25),
-
-    CONSTRAINT PK_Bus
-        PRIMARY KEY (VehicleID),
-
-    CONSTRAINT UQ_Bus_LicencePlate
-        UNIQUE (LicencePlate),
-
-    CONSTRAINT FK_Bus_Transport
-        FOREIGN KEY (VehicleID)
-        REFERENCES Transport(VehicleID),
-
-    CONSTRAINT CHK_Bus_LicencePlate
-        CHECK (
-            REGEXP_LIKE(
-                LicencePlate,
-                '^[A-Z0-9]{2,10}$'
-            )
-        )
-);
-
-CREATE TABLE SubwayTrain (
-    VehicleID        VARCHAR2(10)    NOT NULL,
-    TrainSetNumber   VARCHAR2(20)    NOT NULL,
-    ModelName        VARCHAR2(40)    NOT NULL,
-
-    CONSTRAINT PK_SubwayTrain
-        PRIMARY KEY (VehicleID),
+        CHECK (WheelchairAccessibility IN ('Y', 'N')),
 
     CONSTRAINT UQ_SubwayTrain_TrainSetNumber
         UNIQUE (TrainSetNumber),
-
-    CONSTRAINT FK_SubwayTrain_Transport
-        FOREIGN KEY (VehicleID)
-        REFERENCES Transport(VehicleID),
 
     CONSTRAINT FK_SubwayTrain_TrainModel
         FOREIGN KEY (ModelName)
@@ -338,9 +302,9 @@ CREATE TABLE RunsOn (
             RouteID
         ),
 
-    CONSTRAINT FK_RunsOn_Transport
+    CONSTRAINT FK_RunsOn_SubwayTrain
         FOREIGN KEY (VehicleID)
-        REFERENCES Transport(VehicleID),
+        REFERENCES SubwayTrain(VehicleID),
 
     CONSTRAINT FK_RunsOn_Route
         FOREIGN KEY (RouteID)

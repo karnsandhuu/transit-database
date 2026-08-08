@@ -17,9 +17,7 @@ const tables = [
     "Passes",
     "Passenger",
     "SubwayTrain",
-    "Bus",
     "TrainModel",
-    "Transport",
     "Zone"
 ];
 

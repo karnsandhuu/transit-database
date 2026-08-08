@@ -11,7 +11,8 @@ async function run() {
     //await require('./passengerService.test')();
     //await require('./passService.test')();
     //await require('./gateService.test')();
-    await require('./routeServices.test')();
+    //await require('./routeServices.test')();
+    await require('./trainService.test')();
     await closePoolAndExit();
 
 }
