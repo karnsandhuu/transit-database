@@ -12,3 +12,7 @@ async function checkConnection(req, res) {
         res.send("unable to connect");
     }
 }
+
+module.exports = {
+    checkConnection
+};

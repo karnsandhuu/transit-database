@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 
-const statisticsController = require('../controllers/statisticsController');
+const statisticsController = require('../controllers/statsController');
 
 // Aggregation with GROUP BY
 router.get(

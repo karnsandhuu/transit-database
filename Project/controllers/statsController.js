@@ -1,4 +1,4 @@
-const statisticsService = require('../services/statisticsService');
+const statisticsService = require('../services/statsService');
 
 // Aggregation with GROUP BY
 
