@@ -1,2 +1,115 @@
-<!-- page for train UI -->
-<script src="/scripts/train.js"></script>
+<section class="feature-page">
+    <header class="feature-header">
+        <div>
+            <p class="eyebrow">Fleet management</p>
+            <h2>Subway trains</h2>
+            <p>Create train models and trains, inspect joined train details, and register trains on routes.</p>
+        </div>
+        <button id="refreshTrainDataButton" type="button">Refresh data</button>
+    </header>
+
+    <div id="trainMessage" class="message" role="status" aria-live="polite"></div>
+
+    <details class="panel" open>
+        <summary>Create a train model</summary>
+        <form id="createTrainModelForm" class="form-grid">
+            <label>
+                Model name
+                <input id="trainModelNameInput" type="text" maxlength="40" required>
+            </label>
+            <label>
+                Number of cars
+                <input id="numberOfCars" type="number" min="1" step="1" required>
+            </label>
+            <div class="form-action">
+                <button type="submit">Create model</button>
+            </div>
+        </form>
+    </details>
+
+    <details class="panel" open>
+        <summary>Create a subway train</summary>
+        <p class="help-text">Choose an existing train model. A nonexistent model is rejected because ModelName is a foreign key.</p>
+
+        <form id="createTrainForm" class="form-grid">
+            <label>
+                Train-set number
+                <input id="trainSetNumber" type="text" maxlength="20" placeholder="TRAIN-001" required>
+            </label>
+            <label>
+                Train model
+                <select id="subwayTrainModelName" required>
+                    <option value="">Loading models...</option>
+                </select>
+            </label>
+            <label>
+                Manufacture year
+                <input id="manufactureYear" type="number" min="1900" step="1" required>
+            </label>
+            <label>
+                Capacity
+                <input id="trainCapacity" type="number" min="1" step="1" required>
+            </label>
+            <label>
+                Wheelchair accessible
+                <select id="trainAccessibility" required>
+                    <option value="Y">Yes</option>
+                    <option value="N">No</option>
+                </select>
+            </label>
+            <div class="form-action">
+                <button type="submit">Create train</button>
+            </div>
+        </form>
+    </details>
+
+    <details class="panel">
+        <summary>Register a train on a route</summary>
+        <p class="help-text">Choose existing train and route tuples rather than entering internal IDs manually.</p>
+
+        <form id="registerTrainForm" class="form-grid">
+            <label>
+                Subway train
+                <select id="registrationVehicleId" required>
+                    <option value="">Loading trains...</option>
+                </select>
+            </label>
+            <label>
+                Route
+                <select id="registrationRouteId" required>
+                    <option value="">Loading routes...</option>
+                </select>
+            </label>
+            <div class="form-action">
+                <button type="submit">Register train</button>
+            </div>
+        </form>
+    </details>
+
+    <section class="panel">
+        <h3>Find joined train details</h3>
+        <p class="help-text">Searches by train-set number and displays data from SubwayTrain, TrainModel, RunsOn, and Route.</p>
+
+        <form id="findTrainForm" class="inline-form">
+            <label>
+                Train-set number
+                <input id="findTrainSetNumber" type="text" maxlength="20" placeholder="TRAIN-001" required>
+            </label>
+            <button type="submit">Find train</button>
+        </form>
+
+        <div id="trainDetails" aria-live="polite">
+            <p class="empty-state">Enter a train-set number to view joined details.</p>
+        </div>
+    </section>
+
+    <section class="panel">
+        <h3>Available train models</h3>
+        <div id="trainModelsTable" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+        <h3>Available subway trains</h3>
+        <div id="trainsTable" aria-live="polite"></div>
+    </section>
+</section>
