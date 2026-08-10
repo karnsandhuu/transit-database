@@ -120,17 +120,36 @@ async function countDemotable() {
 // ---------------------------------------------------------------
 // Initializes the webpage functionalities.
 // Add or remove event listeners based on the desired functionalities.
-window.onload = function () {
-    checkDbConnection();
+/*window.onload = function () {
     fetchTableData();
     document.getElementById("resetDemotable").addEventListener("click", resetDemotable);
     document.getElementById("insertDemotable").addEventListener("submit", insertDemotable);
     document.getElementById("updataNameDemotable").addEventListener("submit", updateNameDemotable);
     document.getElementById("countDemotable").addEventListener("click", countDemotable);
-};
+};*/
 
 // General function to refresh the displayed table data. 
 // You can invoke this after any table-modifying operation to keep consistency.
 function fetchTableData() {
     fetchAndDisplayUsers();
 }
+
+function initializeDemotable() {
+    fetchTableData();
+    document.getElementById('resetDemotable')
+        .addEventListener('click', resetDemotable);
+
+    document.getElementById('insertDemotable')
+        .addEventListener('submit', insertDemotable);
+
+    document.getElementById('updataNameDemotable')
+        .addEventListener('submit', updateNameDemotable);
+
+    document.getElementById('countDemotable')
+        .addEventListener('click', countDemotable);
+
+    // Load the existing data
+    fetchAndDisplayDemotable();
+}
+
+initializeDemotable();

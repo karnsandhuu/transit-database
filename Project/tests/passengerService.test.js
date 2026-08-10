@@ -1,5 +1,6 @@
 const passengerService = require('../services/passengerService');
 const { resetDatabase } = require("../services/databaseService");
+const { rePopulateDatabase } = require("../services/databaseService");
 const { withOracleDB } = require('../db/oracle');
 
 async function testInsertPassenger() {
@@ -162,7 +163,10 @@ async function testUpdatePassengerCategory() {
 module.exports = async function () {
 
     console.log("Initializing database...");
-    await resetDatabase();
+    //await resetDatabase();
+    await rePopulateDatabase();
+    //const result = await passengerService.getAllPassengers();
+    //console.log("All passengers:", result);
     await testInsertPassenger();
     await testInsertPassenger2();
     await testGetAllPassengers();

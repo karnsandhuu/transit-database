@@ -7,4 +7,9 @@ router.get(
     controller.checkConnection
 );
 
+router.post(
+    '/database/reset-db',
+    controller.resetDatabase
+);
+
 module.exports = router;

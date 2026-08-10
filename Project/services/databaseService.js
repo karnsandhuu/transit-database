@@ -40,7 +40,7 @@ async function initializeDatabase() {
             try {
                 await connection.execute(statement);
             } catch (err) {
-                console.error("${err.message}: Failed statement:");
+                console.error(`${err.message}: Failed statement:`);
                 console.error(statement);
                 throw err;
             }
@@ -78,6 +78,36 @@ async function resetDatabase() {
 
 }
 
+async function rePopulateDatabase() {
+    await resetDatabase();
+    const baseDataPath = path.join(__dirname, '../db/baseData.sql');
+
+    const sql = fs.readFileSync(
+        baseDataPath,
+        'utf8'
+    );
+
+    const statements = sql
+        .split(';')
+        .map(s => s.trim())
+        .filter(s => s.length > 0);
+
+    return await withOracleDB(async (connection) => {
+        for (const statement of statements) {
+            try {
+                //console.log(`Executing statement: ${statement}`);
+                await connection.execute(statement);
+            } catch (err) {
+                console.error(`${err.message}: Failed statement:`);
+                console.error(statement);
+                throw err;
+            }
+        }
+        await connection.commit();
+        return true;
+    });
+}
+
 async function testOracleConnection() {
     return await withOracleDB(async (connection) => {
         return true;
@@ -89,5 +119,6 @@ async function testOracleConnection() {
 module.exports = {
     initializeDatabase,
     resetDatabase,
-    testOracleConnection
+    testOracleConnection,
+    rePopulateDatabase
 };

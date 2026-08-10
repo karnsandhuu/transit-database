@@ -17,16 +17,16 @@ CREATE TABLE SubwayTrain (
     Capacity                   NUMBER(4)   NOT NULL,
     WheelchairAccessibility    CHAR(1)     NOT NULL,
 
-    CONSTRAINT PK_Transport
+    CONSTRAINT PK_SubwayTrain
         PRIMARY KEY (VehicleID),
 
-    CONSTRAINT CHK_Transport_Year
+    CONSTRAINT CHK_SubwayTrain_Year
         CHECK (ManufactureYear >= 1900),
 
-    CONSTRAINT CHK_Transport_Capacity
+    CONSTRAINT CHK_SubwayTrain_Capacity
         CHECK (Capacity > 0),
 
-    CONSTRAINT CHK_Transport_Wheelchair
+    CONSTRAINT CHK_SubwayTrain_Wheelchair
         CHECK (WheelchairAccessibility IN ('Y', 'N')),
 
     CONSTRAINT UQ_SubwayTrain_TrainSetNumber

@@ -483,7 +483,7 @@ function validateZonePassExit(
         entryZone - exitZone
     );
 
-    return zoneDistance <= numberOfValidZones;
+    return zoneDistance < numberOfValidZones;
 }
 
 async function recordExit(connection, ticketId, gateId) {

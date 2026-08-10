@@ -1,36 +1,105 @@
 const pageScripts = {
     demotable: '/scripts/demotable.js',
-    //passenger: '/scripts/passenger.js',
-    //pass: '/scripts/pass.js',
-    //gate: '/scripts/gate.js',
-    //train: '/scripts/train.js',
-    //statistics: '/scripts/statistics.js'
+    passenger: '/scripts/passenger.js',
+    pass: '/scripts/pass.js',
+    station: '/scripts/station.js',
+    route: '/scripts/route.js',
+    gate: '/scripts/gate.js',
+    train: '/scripts/train.js',
+    statistics: '/scripts/statistics.js'
 };
 
-// This function checks the database connection and updates its status on the frontend.
+
+// Check the database connection
 async function checkDbConnection() {
-    const statusElem = document.getElementById('dbStatus');
-    const loadingGifElem = document.getElementById('loadingGif');
+    const statusElem =
+        document.getElementById('dbStatus');
 
-    const response = await fetch('/check-db-connection', {
-        method: "GET"
-    });
+    const loadingGifElem =
+        document.getElementById('loadingGif');
 
-    // Hide the loading GIF once the response is received.
-    loadingGifElem.style.display = 'none';
-    // Display the statusElem's text in the placeholder.
-    statusElem.style.display = 'inline';
+    try {
+        const response = await fetch(
+            '/database/check-db-connection',
+            {
+                method: 'GET'
+            }
+        );
 
-    response.text()
-        .then((text) => {
-            statusElem.textContent = text;
-        })
-        .catch((error) => {
-            statusElem.textContent = 'connection timed out';  // Adjust error handling if required.
-        });
+        if (!response.ok) {
+            throw new Error(
+                `HTTP error: ${response.status}`
+            );
+        }
+
+        const text = await response.text();
+
+        statusElem.textContent = text;
+
+    } catch (error) {
+
+        console.error(
+            'Database connection check failed:',
+            error
+        );
+
+        statusElem.textContent =
+            'Connection failed';
+
+    } finally {
+
+        loadingGifElem.style.display = 'none';
+        statusElem.style.display = 'inline';
+    }
 }
 
 
+// Reset the database
+async function resetDatabase() {
+
+    try {
+
+        const response = await fetch(
+            '/database/reset-db',
+            {
+                method: 'POST'
+            }
+        );
+
+        const responseData =
+            await response.json();
+
+        const messageElement =
+            document.getElementById('dbResetResult');
+
+        if (responseData.success) {
+
+            messageElement.textContent =
+                'Database initialized successfully!';
+
+        } else {
+
+            messageElement.textContent =
+                'Error initializing database.';
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            'Error resetting database:',
+            error
+        );
+
+        document.getElementById(
+            'dbResetResult'
+        ).textContent =
+            'Error initializing database.';
+    }
+}
+
+
+// Load a feature page
 async function showPage(page) {
 
     try {
@@ -45,23 +114,36 @@ async function showPage(page) {
             );
         }
 
-        const html = await response.text();
+        const html =
+            await response.text();
 
-        document.getElementById('page-content').innerHTML = html;
+        document.getElementById(
+            'page-content'
+        ).innerHTML = html;
 
-        // Load page-specific JavaScript
+
+        // Remove previous page script
+        const oldScript =
+            document.querySelector(
+                'script[data-page-script]'
+            );
+
+        if (oldScript) {
+            oldScript.remove();
+        }
+
+
+        // Load the new page's script
         if (pageScripts[page]) {
-            const oldScript =
-                document.querySelector(
-                    'script[data-page-script]'
-                );
-            if (oldScript) {
-                oldScript.remove();
-            }
-            const script = document.createElement('script');
 
-            script.src = pageScripts[page];
-            script.dataset.pageScript = 'true';
+            const script =
+                document.createElement('script');
+
+            script.src =
+                pageScripts[page];
+
+            script.dataset.pageScript =
+                'true';
 
             document.body.appendChild(script);
         }
@@ -70,13 +152,31 @@ async function showPage(page) {
 
         console.error(err);
 
-        document.getElementById('page-content').innerHTML = `
+        document.getElementById(
+            'page-content'
+        ).innerHTML = `
             <div class="error-message">
-                Failed to load page.
+                Failed to load ${page} page.
             </div>
         `;
     }
 }
 
-// Load a default page when the application starts
-showPage('demotable');
+
+// Set up the application
+document.addEventListener(
+    'DOMContentLoaded',
+    () => {
+
+        checkDbConnection();
+
+        showPage('demotable');
+
+        document
+            .getElementById('dbReset')
+            .addEventListener(
+                'click',
+                resetDatabase
+            );
+    }
+);
