@@ -1,2 +1,96 @@
 <!-- page for statsUI -->
-<script src="/scripts/stats.js"></script>
+<!--for average spending per passenger Category-->
+<section id="averageSpendingSection">
+    <h2>Average Spending by Passenger Category</h2>
+
+    <table id="averageSpendingTable" border="1">
+        <thead>
+            <tr>
+                <th>Passenger Category</th>
+                <th>Passenger Count</th>
+                <th>Average Amount Spent</th>
+            </tr>
+        </thead>
+
+        <tbody id="averageSpendingTableBody">
+            <!-- Rows will be inserted by JavaScript -->
+        </tbody>
+    </table>
+
+    <button id="averageSpendingButton" style="margin-top: 20px;">
+        Get Average Spending
+    </button>
+
+</section>
+<hr>
+<!--for gates with more than 100 exit/enters-->
+<section id="gatesMoreThan100Section">
+    <h2>Gates with more than 100 Enter/Exits</h2>
+
+    <table id="gatesMoreThan100Table" border="1">
+        <thead>
+            <tr>
+                <th>Gate ID</th>
+                <th>Station ID</th>
+                <th>Enter or Exit</th>
+                <th>Total Events</th>
+            </tr>
+        </thead>
+
+        <tbody id="gatesMoreThan100TableBody">
+            <!-- Rows will be inserted by JavaScript -->
+        </tbody>
+    </table>
+
+    <button id="gatesMoreThan100Button" style="margin-top: 20px;">
+        Get gates
+    </button>
+
+</section>
+
+<hr>
+<!--for stations served by more than average routes-->
+<section id="stationsMoreThanAverageSection">
+    <h2>Stations Served by More Than Average Routes</h2>
+
+    <table id="stationsMoreThanAverageTable" border="1">
+        <thead>
+            <tr>
+                <th>Station ID</th>
+                <th>Station Name</th>
+                <th>Route Count</th>
+            </tr>
+        </thead>
+
+        <tbody id="stationsMoreThanAverageTableBody">
+            <!-- Rows will be inserted by JavaScript -->
+        </tbody>
+    </table>
+
+    <button id="stationsMoreThanAverageButton" style="margin-top: 20px;">
+        Get gates
+    </button>
+
+</section>
+
+<hr>
+<section id="passengersWithAllPassTypesSection">
+    <h2>Passengers with All Pass Types</h2>
+
+    <div id="passengersWithAllPassTypesResult" style="display: none;">
+        
+        <p>
+            Number of passengers with both Zone and Timed passes:
+            <strong id="passengersWithAllPassTypesCount"></strong>
+        </p>
+        
+    </div>
+
+    <button id="passengersWithAllPassTypesButton" style="margin-top: 20px;">
+        Get Passenger Count
+    </button>
+
+</section>
+
+
+<script src="/scripts/statistics.js"></script>

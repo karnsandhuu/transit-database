@@ -85,9 +85,9 @@ async function getStationsServedByMoreThanAverageRoutes() {
                 SELECT
                     s.StationID,
                     s.StationName,
-                COUNT(DISTINCT rs.RouteID) AS RouteCount
+                    COUNT(DISTINCT rs.RouteID) AS RouteCount
                 FROM TransportStation s
-                JOIN RouteStop rs
+                LEFT JOIN RouteStop rs
                     ON s.StationID = rs.StationID
                 GROUP BY
                     s.StationID,
@@ -96,13 +96,16 @@ async function getStationsServedByMoreThanAverageRoutes() {
                     SELECT AVG(route_count)
                     FROM (
                         SELECT
-                            COUNT(DISTINCT RouteID) AS route_count
-                        FROM RouteStop
-                        GROUP BY StationID
+                            s2.StationID,
+                            COUNT(DISTINCT rs2.RouteID) AS route_count
+                        FROM TransportStation s2
+                        LEFT JOIN RouteStop rs2
+                            ON s2.StationID = rs2.StationID
+                        GROUP BY s2.StationID
                     )
                 )
-            ORDER BY
-                RouteCount DESC;
+                ORDER BY
+                    RouteCount DESC
                 `
             );
 
@@ -122,7 +125,6 @@ async function getStationsServedByMoreThanAverageRoutes() {
         }
     });
 }
-
 
 async function getPassengersWithAllPassTypesCount() {
     return await withOracleDB(async (connection) => {
