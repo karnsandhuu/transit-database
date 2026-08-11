@@ -226,7 +226,7 @@
                                 body: JSON.stringify({
                                     firstName,
                                     lastName,
-                                    passengerType})
+                                    passengerCategory: passengerType})
                             }
                         );
 
@@ -322,7 +322,7 @@
                                         'application/json'
                                 },
                                 body: JSON.stringify({
-                                    passengerType})
+                                    passengerCategory: passengerType})
                             }
                         );
                     if (!result.success) {
