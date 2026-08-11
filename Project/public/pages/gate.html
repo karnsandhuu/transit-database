@@ -1,2 +1,119 @@
 <!-- page for gate UI -->
-<script src="/scripts/gate.js"></script>
+<div id="gateMessage" class="message" role="status" aria-live="polite"></div>
+
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <h3>Station gates</h3>
+            <p class="help-text">
+                Enter a station ID to view all gates belonging to that station.
+            </p>
+        </div>
+    </div>
+
+    <form id="findGatesForm" class="inline-form">
+        <label>
+            Station ID
+            <input
+                id="findGatesStationId"
+                type="text"
+                maxlength="10"
+                placeholder="S000000001"
+                required
+            >
+        </label>
+
+        <button type="submit">
+            Show gates
+        </button>
+    </form>
+
+    <div id="gatesTable" aria-live="polite">
+        <p class="empty-state">
+            Enter a station ID to view gates.
+        </p>
+    </div>
+</section>
+
+
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <h3>Enter through a gate</h3>
+            <p class="help-text">
+                Enter an active ticket ID and an active entry gate ID.
+            </p>
+        </div>
+    </div>
+
+    <form id="enterGateForm" class="form-grid">
+        <label>
+            Gate ID
+            <input
+                id="enterGateId"
+                type="text"
+                maxlength="10"
+                placeholder="G000000001"
+                required
+            >
+        </label>
+
+        <label>
+            Ticket ID
+            <input
+                id="enterTicketId"
+                type="text"
+                maxlength="10"
+                placeholder="T000000001"
+                required
+            >
+        </label>
+
+        <div class="form-action">
+            <button type="submit">
+                Enter gate
+            </button>
+        </div>
+    </form>
+</section>
+
+
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <h3>Exit through a gate</h3>
+            <p class="help-text">
+                Enter a ticket ID and an active exit gate ID.
+            </p>
+        </div>
+    </div>
+
+    <form id="exitGateForm" class="form-grid">
+        <label>
+            Gate ID
+            <input
+                id="exitGateId"
+                type="text"
+                maxlength="10"
+                placeholder="G000000002"
+                required
+            >
+        </label>
+
+        <label>
+            Ticket ID
+            <input
+                id="exitTicketId"
+                type="text"
+                maxlength="10"
+                placeholder="T000000001"
+                required
+            >
+        </label>
+        <div class="form-action">
+            <button type="submit">
+                Exit gate
+            </button>
+        </div>
+    </form>
+</section>
