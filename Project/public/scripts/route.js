@@ -227,7 +227,7 @@
 
                     const route =
                         await request(
-                            `/route/${encodeURIComponent(routeNumber)}`
+                            `/routes/${encodeURIComponent(routeNumber)}`
                         );
 
                     const [
@@ -235,9 +235,9 @@
                         stops
                     ] = await Promise.all([
                         request(
-                            `/route/${encodeURIComponent(routeNumber)}/schedules`),
+                            `/routes/${encodeURIComponent(routeNumber)}/schedules`),
                         request(
-                            `/route/${encodeURIComponent(routeNumber)}/stops`)
+                            `/routes/${encodeURIComponent(routeNumber)}/stops`)
                     ]);
                     renderRoute(route);
 
