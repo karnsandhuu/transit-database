@@ -13,7 +13,16 @@ async function checkConnection(req, res) {
     }
 }
 
-async function resetDatabase(req, res) {
+async function clearDatabase(req, res) {
+    const initiateResult = await appService.resetDatabase();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+}
+
+async function rePopulateDatabase(req, res) {
     const initiateResult = await appService.rePopulateDatabase();
     if (initiateResult) {
         res.json({ success: true });
@@ -25,5 +34,6 @@ async function resetDatabase(req, res) {
 
 module.exports = {
     checkConnection,
-    resetDatabase
+    clearDatabase,
+    rePopulateDatabase
 };

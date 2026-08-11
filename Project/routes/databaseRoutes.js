@@ -9,7 +9,13 @@ router.get(
 
 router.post(
     '/database/reset-db',
-    controller.resetDatabase
+    controller.rePopulateDatabase
 );
+
+router.post(
+    '/database/clear-db',
+    controller.clearDatabase
+);
+
 
 module.exports = router;

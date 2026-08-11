@@ -98,6 +98,49 @@ async function resetDatabase() {
     }
 }
 
+async function clearDatabase() {
+
+    try {
+
+        const response = await fetch(
+            '/database/clear-db',
+            {
+                method: 'POST'
+            }
+        );
+
+        const responseData =
+            await response.json();
+
+        const messageElement =
+            document.getElementById('dbClearResult');
+
+        if (responseData.success) {
+
+            messageElement.textContent =
+                'Database cleared successfully!';
+
+        } else {
+
+            messageElement.textContent =
+                'Error initializing database.';
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            'Error resetting database:',
+            error
+        );
+
+        document.getElementById(
+            'dbClearResult'
+        ).textContent =
+            'Error initializing database.';
+    }
+}
+
 
 // Load a feature page
 async function showPage(page) {
@@ -177,6 +220,13 @@ document.addEventListener(
             .addEventListener(
                 'click',
                 resetDatabase
+        );
+        
+        document
+            .getElementById('dbClear')
+            .addEventListener(
+                'click',
+                clearDatabase
             );
     }
 );

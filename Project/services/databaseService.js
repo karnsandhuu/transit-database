@@ -49,7 +49,7 @@ async function initializeDatabase() {
         return true;
     });
 }
-
+/*
 async function clearDatabase() {
     await withOracleDB(async (connection) => {
         for (const table of tables) {
@@ -70,12 +70,63 @@ async function clearDatabase() {
             }
         }
     });
+}*/
+
+async function clearDatabase() {
+
+    const dropDataPath =
+        path.join(__dirname, '../db/drop.sql');
+
+    const sql =
+        fs.readFileSync(
+            dropDataPath,
+            'utf8'
+        );
+
+    const statements =
+        sql
+            .split(';')
+            .map(statement => statement.trim())
+            .filter(statement => statement.length > 0);
+
+    return await withOracleDB(
+        async connection => {
+
+            for (const statement of statements) {
+
+                try {
+
+                    console.log(
+                        `Executing: ${statement}`
+                    );
+
+                    await connection.execute(
+                        statement
+                    );
+
+                } catch (err) {
+
+                    console.error(`Failed to execute: ${statement}`);
+
+                    console.error(err.message);
+
+                }
+            }
+
+            return true;
+        }
+    );
 }
 
 async function resetDatabase() {
-    await clearDatabase();
-    await initializeDatabase();
-
+    try {
+        await clearDatabase();
+        await initializeDatabase();
+        return true;
+    } catch (err) {
+        console.error('Error resetting database:', err);
+        throw err;
+    }
 }
 
 async function rePopulateDatabase() {
