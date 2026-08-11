@@ -1,5 +1,19 @@
+function showError(elementId, message) {
+    const errorElement = document.getElementById(elementId);
+
+    errorElement.textContent = message;
+    errorElement.style.display = "block";
+}
+function clearError(elementId) {
+    const errorElement = document.getElementById(elementId);
+
+    errorElement.textContent = "";
+    errorElement.style.display = "none";
+}
+
 async function getAverageSpendingByCategory() {
     console.log("getting average...");
+    clearError("averageSpendingError");
     try {
         const response = await fetch(
             "/statistics/average-spending-by-category"
@@ -21,12 +35,15 @@ async function getAverageSpendingByCategory() {
             "Error fetching average spending:",
             error
         );
+        showError(
+            "averageSpendingError",
+            "Unable to retrieve average spending information. Please refresh the DB and try again."
+        );
     }
 }
 
 
 function displayAverageSpendingByCategory(data) {
-
     const table =
         document.getElementById(
             "averageSpendingTable"
@@ -60,6 +77,7 @@ function displayAverageSpendingByCategory(data) {
 
 async function getGatesMoreThan100Events() {
     console.log("Getting gates with more than 100 events...");
+    clearError("gatesMoreThan100Error");
 
     try {
         const response = await fetch(
@@ -80,6 +98,10 @@ async function getGatesMoreThan100Events() {
         console.error(
             "Error fetching gates with more than 100 events:",
             error
+        );
+        showError(
+            "gatesMoreThan100Error",
+            "Unable to retrieve gate information. Please refresh the DB and try again."
         );
     }
 }
@@ -117,6 +139,7 @@ function displayGatesMoreThan100Events(data) {
     table.style.display = "table";
 }
 async function getStationsMoreThanAverage() {
+    clearError("stationsMoreThanAverageError");
     console.log(
         "Getting stations served by more than average routes..."
     );
@@ -141,6 +164,11 @@ async function getStationsMoreThanAverage() {
         console.error(
             "Error fetching stations:",
             error
+        );
+
+        showError(
+            "stationsMoreThanAverageError",
+            "Unable to retrieve station information. Please refresh the DB and try again."
         );
     }
 }
@@ -181,6 +209,7 @@ async function getPassengersWithAllPassTypes() {
     console.log(
         "Getting passengers with all pass types..."
     );
+    clearError("passengersWithAllPassTypesError");
     try {
 
         const response = await fetch(
@@ -203,6 +232,11 @@ async function getPassengersWithAllPassTypes() {
             "Error fetching passenger count:",
             error
         );
+        showError(
+            "passengersWithAllPassTypesError",
+            "Unable to retrieve the passenger count. Please refresh the DB and try again."
+        );
+        
     }
 }
 
@@ -224,25 +258,10 @@ function displayPassengersWithAllPassTypes(data) {
 }
 
 function initializePage() {
-    console.log("!!! NEW STATISTICS.JS LOADED !!!");
-    console.log("initializing stats page");
     document.getElementById("averageSpendingButton").addEventListener("click", getAverageSpendingByCategory);
     document.getElementById("gatesMoreThan100Button").addEventListener("click", getGatesMoreThan100Events);
     document.getElementById("stationsMoreThanAverageButton").addEventListener("click", getStationsMoreThanAverage);
-    //document.getElementById("getPassengersAllPassTypes").addEventListener("click",getPassengersWithAllPassTypes);
-
-    const button = document.getElementById("passengersWithAllPassTypesButton");
-
-    console.log("All pass types button:", button);
-
-    if (button) {
-        button.addEventListener(
-            "click",
-            getPassengersWithAllPassTypes
-        );
-
-        console.log("Listener added!");
-    }
+    document.getElementById("passengersWithAllPassTypesButton").addEventListener("click",getPassengersWithAllPassTypes);
 }
 
 initializePage();
