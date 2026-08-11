@@ -46,7 +46,7 @@ The AI generated function specification documentation based on the provided info
 
 ### API Documentation
 
-For documentation in the `APIs` folder, the student provided the relevant controller code together with the previously generated specification documentation.
+For documentation in the `APIs` folder, the student provided the relevant controller code together with the previously generated specs documentation.
 
 The AI used these materials to generate API documentation describing the endpoints, requests, responses, and functionality. The student then reviewed and edited the generated documentation.
 
