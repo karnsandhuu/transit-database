@@ -1,3 +1,4 @@
+-- !!New SQLs are found in the Project/db folder!!
 -- 1. Transport
 CREATE TABLE Transport (
     VehicleID CHAR(10) PRIMARY KEY,

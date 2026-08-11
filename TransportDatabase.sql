@@ -1,3 +1,4 @@
+-- !!New SQLs are found in the Project/db folder!!
 CREATE TABLE Transport(
     VehicleID CHAR(10) NOT NULL PRIMARY KEY, 
     ManufactureYear NUMBER(4) CHECK (ManufactureYear >= 1900 AND ManufactureYear <= EXTRACT(YEAR FROM SYSDATE)), 

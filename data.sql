@@ -1,3 +1,4 @@
+-- !!New SQLs are found in the Project/db folder!!
 -- 1. Transport
 INSERT INTO Transport VALUES ('V001', 2015, 60, 'Y');
 INSERT INTO Transport VALUES ('V002', 2018, 45, 'Y');

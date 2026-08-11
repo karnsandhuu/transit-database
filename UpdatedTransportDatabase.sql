@@ -1,3 +1,4 @@
+-- !!New SQLs are found in the Project/db folder!!
 /* =========================================================
    URBAN TRANSIT DATABASE
    Oracle SQL DDL
