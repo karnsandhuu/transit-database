@@ -1,2 +1,47 @@
-<!-- page for station UI -->
-<script src="/scripts/station.js"></script>
+<section class="feature-page">
+    <header class="feature-header">
+        <div>
+            <p class="eyebrow">Network locations</p>
+            <h2>Zones and stations</h2>
+            <p>View fare zones, browse stations, and filter stations by zone.</p>
+        </div>
+        <button id="refreshStationDataButton" type="button">Refresh data</button>
+    </header>
+
+    <div id="stationMessage" class="message" role="status" aria-live="polite"></div>
+
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <h3>Fare zones</h3>
+                <p class="help-text">
+                    These zones are available for filtering stations.
+                </p>
+            </div>
+        </div>
+
+        <div id="zonesTable" aria-live="polite"></div>
+    </section>
+
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <h3>Transport stations</h3>
+                <p class="help-text">
+                    Choose one zone or display stations from every zone.
+                </p>
+            </div>
+
+            <label class="compact-control">
+                Filter by zone
+                <select id="stationZoneFilter">
+                    <option value="">All zones</option>
+                </select>
+            </label>
+        </div>
+
+        <div id="stationsTable" aria-live="polite"></div>
+    </section>
+
+</section>
+
