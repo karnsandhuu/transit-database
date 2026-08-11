@@ -32,39 +32,35 @@ async function getAverageSpendingByPassengerCategory() {
     });
 }
 
-async function getGatesWithMoreThan100Events() {
+async function getStationsWithMoreThan130Events() {
     return await withOracleDB(async (connection) => {
         try {
             const result = await connection.execute(
                 `
                 SELECT
-                    GateID,
                     StationID,
                     EnterOrExit,
-                    TotalEnterExitCount
+                    SUM(TotalEnterExitCount) AS TotalEnterExitCount
                 FROM Gate
                 GROUP BY
-                    GateID,
                     StationID,
-                    EnterOrExit,
-                    TotalEnterExitCount
+                    EnterOrExit
                 HAVING
-                    TotalEnterExitCount > 100
+                    SUM(TotalEnterExitCount) > 130
                 ORDER BY
                     TotalEnterExitCount DESC
                 `
             );
 
             return result.rows.map(row => ({
-                gateId: row[0],
-                stationId: row[1],
-                enterOrExit: row[2],
-                totalEnterExitCount: row[3]
+                stationId: row[0],
+                enterOrExit: row[1],
+                totalEnterExitCount: row[2]
             }));
 
         } catch (err) {
             console.log(
-                "Error retrieving gates with more than 100 events:",
+                "Error retrieving stations with more than 300 events:",
                 err.message
             );
 
@@ -183,7 +179,7 @@ async function getPassengersWithAllPassTypesCount() {
 
 module.exports = {
     getAverageSpendingByPassengerCategory,
-    getGatesWithMoreThan100Events,
+    getStationsWithMoreThan300Events: getStationsWithMoreThan130Events,
     getStationsServedByMoreThanAverageRoutes,
     getPassengersWithAllPassTypesCount
 };

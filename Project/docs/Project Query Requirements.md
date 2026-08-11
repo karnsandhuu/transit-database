@@ -11,7 +11,7 @@ This document lists the functions that satisfy the project query requirements. E
 | **Delete** | `deletePass()` | services/passService.js line: 511| [Function Specs](specs/PassServiceSpecs.md#deletepass) | [API Specs](APIS/PassAPI.md#4-delete-a-pass) |
 | **Projection** | `getPassengerById()` | services/passengerService.js line: 60| [Function Specs](specs/PassengerServiceSpecs.md#getpassengerbyid) | [API Specs](APIS/PassengerAPI.md#get-passengerspassengerid) |
 | **GROUP BY** | `getAverageSpendingByPassengerCategory()` | services/statsService.js line: 4 | [Function Specs](specs/StatsSpecs.md#getaveragespendingbypassengercategory) | [API Specs](APIS/StatisticsAPI.md#average-spending-by-passenger-category) |
-| **HAVING** | `getGatesWithMoreThan100Events()` | services/statsService.js line: 35 | [Function Specs](specs/StatsSpecs.md#getgateswithmorethan100events) | [API Specs](APIS/StatisticsAPI.md#gates-with-more-than-100-events) |
+| **HAVING** | `getStationsWithMoreThan130Events()` | services/statsService.js line: 35 | [Function Specs](specs/StatsSpecs.md#getgateswithmorethan100events) | [API Specs](APIS/StatisticsAPI.md#gates-with-more-than-100-events) |
 | **Nested Aggregation with GROUP BY** |`getStationsServedByMoreThanAverageRoutes()` | services/statsService.js line: 77 | [Function Specs](specs/StatsSpecs.md#getstationsservedbymorethanaverageroutes) | [API Specs](APIS/StatisticsAPI.md#stations-served-by-more-than-the-average-number-of-routes) |
 | **Division** | `getPassengersWithAllPassTypesCount()` | services/statsService.js line: 129 |[Function Specs](specs/StatsSpecs.md#getpassengerswithallpasstypescount) | [API Specs](APIS/StatisticsAPI.md#passengers-with-all-pass-types) |
 
@@ -46,27 +46,25 @@ ORDER BY
 ```
 The query groups passengers by PassengerCategory and calculates the number of unique passengers by ID and their average pass spending within each category. The results are then sorted alphabetically by passenger category.
 
-- **HAVING** — Finds gates with more than 100 entrance/exit events.
+* **HAVING** — Finds stations with more than 130 total entrance/exit events for a given entry/exit type.
 
 ```
 SELECT
-    GateID,
     StationID,
     EnterOrExit,
-    TotalEnterExitCount
+    SUM(TotalEnterExitCount) AS TotalEnterExitCount
 FROM Gate
 GROUP BY
-    GateID,
     StationID,
-    EnterOrExit,
-    TotalEnterExitCount
+    EnterOrExit
 HAVING
-    TotalEnterExitCount > 100
+    SUM(TotalEnterExitCount) > 130
 ORDER BY
-    TotalEnterExitCount DESC
+    TotalEnterExitCount DESC;
 ```
 
-The query finds gates that have recorded more than 100 entrances or exits. It groups the results by gate and station, then displays the qualifying gates in descending order of event count.
+The query **aggregates the total number of entrance or exit events for each station**, separately for entrances and exits. It groups the results by station and entry/exit type, calculates the total using `SUM()`, and uses `HAVING` to keep only groups with more than 130 events. The qualifying results are displayed in descending order of total event count.
+
 
 - **Nested Aggregation with GROUP BY** — Finds stations served by at least the average number of routes.
 

@@ -75,48 +75,50 @@ function displayAverageSpendingByCategory(data) {
     table.style.display = "table";
 }
 
-async function getGatesMoreThan100Events() {
-    console.log("Getting gates with more than 100 events...");
-    clearError("gatesMoreThan100Error");
+async function getStationsMoreThan300Events() {
+    console.log("Getting stations with more than 300 events...");
+    clearError("stationsMoreThan300Error");
+
 
     try {
         const response = await fetch(
-            "/statistics/gates-more-than-100-events"
+            "/statistics/stations-more-than-300-events"
+    );
+
+    if (!response.ok) {
+        throw new Error(
+            `HTTP error: ${ response.status } `
         );
+    }
 
-        if (!response.ok) {
-            throw new Error(
-                `HTTP error: ${response.status}`
-            );
-        }
+    const data = await response.json();
 
-        const data = await response.json();
-
-        displayGatesMoreThan100Events(data);
+    displayStationsMoreThan300Events(data);
 
     } catch (error) {
         console.error(
-            "Error fetching gates with more than 100 events:",
+            "Error fetching stations with more than 300 events:",
             error
         );
-        showError(
-            "gatesMoreThan100Error",
-            "Unable to retrieve gate information. Please refresh the DB and try again."
-        );
-    }
+
+    showError(
+        "stationsMoreThan300Error",
+        "Unable to retrieve station information. Please refresh the DB and try again."
+    );
 }
 
 
-function displayGatesMoreThan100Events(data) {
+}
 
+function displayStationsMoreThan300Events(data) {
     const table =
         document.getElementById(
-            "gatesMoreThan100Table"
+            "stationsMoreThan300Table"
         );
 
     const tableBody =
         document.getElementById(
-            "gatesMoreThan100TableBody"
+            "stationsMoreThan300TableBody"
         );
 
     tableBody.innerHTML = "";
@@ -127,8 +129,7 @@ function displayGatesMoreThan100Events(data) {
             document.createElement("tr");
 
         tableRow.innerHTML = `
-            <td>${row.gateId}</td>
-            <td>${row.stationId}</td>
+            <td> ${ row.stationId }</td >
             <td>${row.enterOrExit}</td>
             <td>${row.totalEnterExitCount}</td>
         `;
@@ -138,6 +139,8 @@ function displayGatesMoreThan100Events(data) {
 
     table.style.display = "table";
 }
+
+
 async function getStationsMoreThanAverage() {
     clearError("stationsMoreThanAverageError");
     console.log(
@@ -259,7 +262,7 @@ function displayPassengersWithAllPassTypes(data) {
 
 function initializePage() {
     document.getElementById("averageSpendingButton").addEventListener("click", getAverageSpendingByCategory);
-    document.getElementById("gatesMoreThan100Button").addEventListener("click", getGatesMoreThan100Events);
+    document.getElementById("stationsMoreThan300Button").addEventListener("click", getStationsMoreThan300Events);
     document.getElementById("stationsMoreThanAverageButton").addEventListener("click", getStationsMoreThanAverage);
     document.getElementById("passengersWithAllPassTypesButton").addEventListener("click",getPassengersWithAllPassTypes);
 }

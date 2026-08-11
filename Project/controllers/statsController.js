@@ -12,9 +12,9 @@ async function getAverageSpendingByPassengerCategory(req, res) {
 
 // Aggregation with HAVING
 
-async function getGatesWithMoreThan100Events(req, res) {
+async function getStationsWithMoreThan300Events(req, res) {
     const result =
-        await statisticsService.getGatesWithMoreThan100Events();
+        await statisticsService.getStationsWithMoreThan300Events();
 
     return res.json(result);
 
@@ -44,7 +44,7 @@ async function getPassengersWithAllPassTypesCount(req, res) {
 
 module.exports = {
     getAverageSpendingByPassengerCategory,
-    getGatesWithMoreThan100Events,
+    getStationsWithMoreThan300Events,
     getStationsServedByMoreThanAverageRoutes,
     getPassengersWithAllPassTypesCount
 };

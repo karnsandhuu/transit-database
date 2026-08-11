@@ -11,8 +11,8 @@ router.get(
 
 // Aggregation with HAVING
 router.get(
-    '/statistics/gates-more-than-100-events',
-    statisticsController.getGatesWithMoreThan100Events
+    '/statistics/stations-more-than-300-events',
+    statisticsController.getStationsWithMoreThan300Events
 );
 
 // Nested Aggregation with GROUP BY
