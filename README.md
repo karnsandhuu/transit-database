@@ -1,16 +1,10 @@
 # CPSC304 Project
 **!!New SQLs are found in the Project/db folder!!**
-## Overview
 
-This project is a database-driven application developed for CPSC 304. The backend is built using **Node.js**, **Express**, and **Oracle Database**.
+# Subway Transit system
 
-The project follows a layered architecture to separate:
-- HTTP request handling
-- Application logic
-- Database access
-- Testing
-
-This structure makes the project easier to maintain, extend, and test as more features are added.
+## Project Summery
+Our project is a subway transit management database designed to manage and give data about subway trains, passengers, transit passes, routes, stations, gates, and fare zones. The system stores vehicle and schedule information, verifies whether passenger transit passes are valid, and records passenger entry and exit activity at stations.
 
 ---
 
