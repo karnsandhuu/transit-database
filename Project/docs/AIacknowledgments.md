@@ -10,7 +10,7 @@ For example, the AI was given requirements such as:
 
 > There needs to be at least 2 passengers in each passenger category.
 
-The generated data was then reviewed by the student and modified when necessary to ensure that it satisfied the project requirements and database constraints.
+The generated data was then reviewed by the student and modified to ensure that it satisfied the project requirements and database constraints.
 
 ## Refactoring Suggestions
 
