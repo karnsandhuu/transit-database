@@ -4,7 +4,7 @@ This document lists the functions that satisfy the project query requirements. E
 
 | Requirement | Function | Code | Function Specs | API Specs |
 |---|---|---|---|
-| **Insert** | `insertPassenger()` | services/passengerService.js line: 5 | [Function Specs](specs/PassengerServiceSpecs.md#insertpassenger) | [API Specs](APIS/PassengerAPI.md#post-passengers) |
+| **Insert** | `purchasePassForPassenger()` | services/passService.js line: 5 | [Function Specs](specs/PassengerServiceSpecs.md#insertpassenger) | [API Specs](APIS/PassengerAPI.md#post-passengers) |
 | **Select** | `getPassesByPassengerId()` | services/passService.js line: 453 | [Function Specs](specs/PassServiceSpecs.md#3-getpassesbypassengerid) | [API Specs](APIS/PassAPI.md#3-get-passengers-passes) |
 | **Update** | `topUpTimedPass()` | services/passService.js line: 234 | [Function Specs](specs/PassServiceSpecs.md#2-toptuptimedpass) | [API Specs](APIS/PassAPI.md#2-top-up-a-timed-pass) |
 | **Join** | `enterGate()` | services/gateService.js line: 201| [Function Specs](specs/GateServiceSpecs.md#enter-gate) | [API Specs](APIS/PassAPI.md#enter-gate) |
@@ -20,7 +20,7 @@ This document lists the functions that satisfy the project query requirements. E
 The project query requirements are satisfied by the following database operations:
 
 ### 1-6:
-- **Insert** — Adds a new passenger to the database.
+- **Insert** — Buys a new pass for a passenger using passenger ID
 - **Select** — Retrieves all passes belonging to a specific passenger.
 - **Update** — Extends an existing timed pass.
 - **Join** — Retrieves information by joining data across related tables when a passenger enters a gate.
