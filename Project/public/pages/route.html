@@ -1,2 +1,90 @@
 <!-- page for route UI -->
-<script src="/scripts/route.js"></script>
+
+<div id="routeMessage" class="message" role="status" aria-live="polite"></div>
+
+
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <h3>Find route</h3>
+
+            <p class="help-text">
+                Enter a route number to view route information, stops, and schedules.
+            </p>
+        </div>
+    </div>
+
+    <form id="findRouteForm" class="inline-form">
+        <label>
+            Route number
+
+            <input
+                id="findRouteNumber"
+                type="number"
+                min="1"
+                step="1"
+                placeholder="25"
+                required
+            >
+        </label>
+
+        <button type="submit">
+            Find route
+        </button>
+    </form>
+</section>
+<hr>
+
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <h3>Route information</h3>
+
+            <p class="help-text">
+                Information about the selected route.
+            </p>
+        </div>
+    </div>
+
+    <div id="routeDetails" aria-live="polite">
+        <p class="empty-state">
+            Enter a route number to view route information.
+        </p>
+    </div>
+</section>
+<hr>
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <h3>Route schedules</h3>
+
+            <p class="help-text">
+                Displays the schedules for the selected route.
+            </p>
+        </div>
+    </div>
+
+    <div id="routeSchedules" aria-live="polite">
+        <p class="empty-state">
+            Enter a route number to view schedules.
+        </p>
+    </div>
+</section>
+<hr>
+<section class="panel">
+    <div class="section-heading">
+        <div>
+            <h3>Route stops</h3>
+
+            <p class="help-text">
+                Displays the stations on the selected route in order of stops.
+            </p>
+        </div>
+    </div>
+
+    <div id="routeStops" aria-live="polite">
+        <p class="empty-state">
+            Enter a route number to view the stops.
+        </p>
+    </div>
+</section>

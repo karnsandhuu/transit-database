@@ -1,2 +1,41 @@
-<!-- page for train UI -->
-<script src="/scripts/train.js"></script>
+<section class="feature-page">
+    <header class="feature-header">
+        <div>
+            <h2>Subway trains</h2>
+        </div>
+
+        <button id="refreshTrainDataButton" type="button">
+            Refresh data
+        </button>
+    </header>
+    <div id="trainMessage" class="message" role="status" aria-live="polite">
+    </div>
+
+    <section class="panel">
+        <h3>Find joined train details</h3>
+        <p class="help-text">
+            Searches by train-set number and displays data from
+            SubwayTrain, TrainModel, RunsOn, and Route.
+        </p>
+        <form id="findTrainForm" class="inline-form">
+
+            <label>
+                Train-set number
+
+                <input id="findTrainSetNumber" type="text" maxlength="20" placeholder="TS-100" required>
+            </label>
+
+            <button type="submit">
+                Find train
+            </button>
+        </form>
+
+        <div id="trainDetails" aria-live="polite">
+
+            <p class="empty-state">
+                Enter a train-set number to view joined details.
+            </p>
+
+        </div>
+    </section>
+</section>

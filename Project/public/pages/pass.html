@@ -1,2 +1,103 @@
-<!-- page for pass UI -->
-<script src="/scripts/pass.js"></script>
+<section class="feature-page">
+    <header class="feature-header">
+        <div>
+            <p class="eyebrow">Fare management</p>
+            <h2>Transit passes</h2>
+            <p>Purchase, view, top up, and delete passes belonging to a passenger.</p>
+        </div>
+    </header>
+
+    <div id="passMessage" class="message" role="status" aria-live="polite"></div>
+
+    <details class="panel" open>
+        <summary>Purchase a pass</summary>
+        <p class="help-text">Enter an existing passenger ID. The additional fields change with the selected pass type.</p>
+
+        <form id="purchasePassForm" class="form-grid">
+            <label>
+                Passenger ID
+                <input id="purchasePassengerId" type="text" maxlength="10" placeholder="P000000001" required>
+            </label>
+
+            <label>
+                Pass type
+                <select id="purchasePassType" required>
+                    <option value="Zone">Zone pass</option>
+                    <option value="Timed">Timed pass</option>
+                </select>
+            </label>
+
+            <label>
+                Amount paid
+                <input id="purchaseAmount" type="number" min="0.01" step="0.01" placeholder="25.00" required>
+            </label>
+
+            <label id="validZonesField">
+                Number of valid zones
+                <input id="numberOfValidZones" type="number" min="1" step="1" value="1">
+            </label>
+
+            <label id="timedPassTypeField" hidden>
+                Timed pass duration
+                <select id="timedPassType">
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                </select>
+            </label>
+
+            <div class="form-action">
+                <button type="submit">Purchase pass</button>
+            </div>
+        </form>
+    </details>
+<hr>
+    <details class="panel">
+        <summary>Top up a timed pass</summary>
+        <form id="topUpPassForm" class="form-grid">
+            <label>
+                Ticket ID
+                <input id="topUpTicketId" type="text" maxlength="10" placeholder="T000000001" required>
+            </label>
+
+            <label>
+                Additional amount
+                <input id="topUpAmount" type="number" min="0.01" step="0.01" required>
+            </label>
+
+            <label>
+                Add duration
+                <select id="topUpPassType" required>
+                    <option value="Daily">Daily</option>
+                    <option value="Weekly">Weekly</option>
+                    <option value="Monthly">Monthly</option>
+                </select>
+            </label>
+
+            <div class="form-action">
+                <button type="submit">Top up pass</button>
+            </div>
+        </form>
+    </details>
+<hr>
+    <section class="panel">
+        <div class="section-heading">
+            <div>
+                <h3>Passenger passes</h3>
+                <p class="help-text">Enter a passenger ID to display every pass currently belonging to that passenger.</p>
+            </div>
+        </div>
+
+        <form id="findPassesForm" class="inline-form">
+            <label>
+                Passenger ID
+                <input id="findPassesPassengerId" type="text" maxlength="10" placeholder="P000000001" required>
+            </label>
+            <button type="submit">Show passes</button>
+        </form>
+
+        <div id="passesTable" aria-live="polite">
+            <p class="empty-state">Enter a passenger ID to view passes.</p>
+        </div>
+    </section>
+</section>

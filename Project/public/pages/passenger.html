@@ -1,3 +1,231 @@
 <!-- page for passenger UI-->
 
-<script src="/scripts/passenger.js"></script>
+<div id="passengerMessage" class="message" role="status" aria-live="polite"></div>
+
+<details class="panel" open>
+    <summary>Create passenger</summary>
+
+    <p class="help-text">
+        Enter the passenger's information. A passenger ID will be generated automatically.
+    </p>
+
+    <form id="createPassengerForm" class="form-grid">
+
+        <label>
+            First name
+            <input
+                id="createFirstName"
+                type="text"
+                placeholder="John"
+                required
+            >
+        </label>
+
+        <label>
+            Last name
+            <input
+                id="createLastName"
+                type="text"
+                placeholder="Smith"
+                required
+            >
+        </label>
+
+        <label>
+            Passenger category
+            <select id="createPassengerType" required>
+                <option value="Adult">Adult</option>
+                <option value="Child">Child</option>
+                <option value="Senior">Senior</option>
+                <option value="Student">Student</option>
+            </select>
+        </label>
+
+        <div class="form-action">
+            <button type="submit">
+                Create passenger
+            </button>
+        </div>
+
+    </form>
+</details>
+<hr>
+<section class="panel">
+
+    <div class="section-heading">
+        <div>
+            <h3>Find passenger</h3>
+
+            <p class="help-text">
+                Enter a passenger ID and choose which information to display.
+                You can also choose the order of the displayed attributes.
+            </p>
+        </div>
+    </div>
+
+    <form id="findPassengerForm" class="form-grid">
+
+        <label>
+            Passenger ID
+
+            <input
+                id="findPassengerId"
+                type="text"
+                maxlength="10"
+                placeholder="P000000001"
+                required
+            >
+        </label>
+
+        <div>
+            <strong>Information to display</strong>
+
+            <p class="help-text">
+                Select at least one attribute. Each selected attribute must have a different order number.
+            </p>
+        </div>
+
+        <div>
+            <label>
+                <input
+                    id="showPassengerId"
+                    type="checkbox"
+                    checked
+                >
+                Passenger ID
+            </label>
+
+            <label>
+                Display order
+                <select id="orderPassengerId">
+                    <option value="1" selected>1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input
+                    id="showFirstName"
+                    type="checkbox"
+                    checked
+                >
+                First name
+            </label>
+
+            <label>
+                Display order
+                <select id="orderFirstName">
+                    <option value="1">1</option>
+                    <option value="2" selected>2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                </select>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input
+                    id="showLastName"
+                    type="checkbox"
+                    checked
+                >
+                Last name
+            </label>
+
+            <label>
+                Display order
+                <select id="orderLastName">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3" selected>3</option>
+                    <option value="4">4</option>
+                </select>
+            </label>
+        </div>
+
+        <div>
+            <label>
+                <input
+                    id="showPassengerCategory"
+                    type="checkbox"
+                    checked
+                >
+                Passenger category
+            </label>
+
+            <label>
+                Display order
+                <select id="orderPassengerCategory">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4" selected>4</option>
+                </select>
+            </label>
+        </div>
+
+        <div class="form-action">
+            <button type="submit">
+                Find passenger
+            </button>
+        </div>
+
+    </form>
+
+    <div id="passengerDetails" aria-live="polite">
+
+        <p class="empty-state">
+            Enter a passenger ID to view passenger information.
+        </p>
+
+    </div>
+
+</section>
+<hr>
+<details class="panel">
+
+    <summary>Update passenger category</summary>
+
+    <p class="help-text">
+        Enter an existing passenger ID and choose their new category.
+    </p>
+
+    <form id="updatePassengerForm" class="form-grid">
+
+        <label>
+            Passenger ID
+
+            <input
+                id="updatePassengerId"
+                type="text"
+                maxlength="10"
+                placeholder="P000000001"
+                required
+            >
+        </label>
+
+        <label>
+            New passenger category
+
+            <select id="updatePassengerType" required>
+                <option value="Adult">Adult</option>
+                <option value="Child">Child</option>
+                <option value="Senior">Senior</option>
+                <option value="Student">Student</option>
+            </select>
+        </label>
+
+        <div class="form-action">
+            <button type="submit">
+                Update category
+            </button>
+        </div>
+
+    </form>
+
+</details>
