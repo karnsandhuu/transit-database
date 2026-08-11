@@ -104,26 +104,4 @@ The `ValidEntranceAt` relationship table was removed since pass entrance can be 
 
 The `ValidExitAt` relationship table was also removed.
 
-
----
-
-## 13. Summary of Changes
-
-| Area | Before | After |
-|---|---|---|
-| Vehicle hierarchy | `Transport → Bus/SubwayTrain` | Only `SubwayTrain` |
-| `Transport` table | Exists | Removed |
-| `Bus` table | Exists | Removed |
-| Vehicle attributes | Stored in `Transport` | Stored in `SubwayTrain` |
-| ID types | Mostly `CHAR(10)` | Mostly `VARCHAR2(10)` |
-| Passenger category | Required | Defaults to `Adult` |
-| Pass statuses | Active, Inactive, Expired, Suspended | Active, Inactive |
-| Route number | Not present | Added and unique |
-| Route direction | Present | Removed |
-| Schedule times | `TIMESTAMP` | `VARCHAR2(5)` |
-| Schedule validation | Timestamp comparison | `HH:MM` regular expression |
-| `RunsOn` reference | `Transport` | `SubwayTrain` |
-| `ValidEntranceAt` | Present | Removed |
-| `ValidExitAt` | Present | Removed |
-
 ---
