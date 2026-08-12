@@ -171,5 +171,6 @@ module.exports = {
     initializeDatabase,
     resetDatabase,
     testOracleConnection,
-    rePopulateDatabase
+    rePopulateDatabase,
+    clearDatabase
 };

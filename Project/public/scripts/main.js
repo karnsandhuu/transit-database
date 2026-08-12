@@ -137,7 +137,51 @@ async function clearDatabase() {
         document.getElementById(
             'dbClearResult'
         ).textContent =
-            'Error initializing database.';
+            'Error clearing database.';
+    }
+}
+
+
+async function dropDatabase() {
+
+    try {
+
+        const response = await fetch(
+            '/database/drop-db',
+            {
+                method: 'POST'
+            }
+        );
+
+        const responseData =
+            await response.json();
+
+        const messageElement =
+            document.getElementById('dbDropResult');
+
+        if (responseData.success) {
+
+            messageElement.textContent =
+                'Database tables dropped successfully!';
+
+        } else {
+
+            messageElement.textContent =
+                'Error dropping database tables.';
+
+        }
+
+    } catch (error) {
+
+        console.error(
+            'Error dropping database tables',
+            error
+        );
+
+        document.getElementById(
+            'dbClearResult'
+        ).textContent =
+            'Error dropping database tables.';
     }
 }
 
@@ -227,6 +271,13 @@ document.addEventListener(
             .addEventListener(
                 'click',
                 clearDatabase
+        );
+        
+        document
+            .getElementById('dbDrop')
+            .addEventListener(
+                'click',
+                dropDatabase
             );
     }
 );

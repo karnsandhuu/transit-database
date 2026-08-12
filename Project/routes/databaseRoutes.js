@@ -17,5 +17,11 @@ router.post(
     controller.clearDatabase
 );
 
+router.post(
+    '/database/drop-db',
+    controller.dropDatabase
+);
+
+
 
 module.exports = router;

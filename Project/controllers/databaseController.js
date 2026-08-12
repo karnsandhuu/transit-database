@@ -31,9 +31,19 @@ async function rePopulateDatabase(req, res) {
     }
 }
 
+async function dropDatabase(req, res) {
+    const initiateResult = await appService.clearDatabase();
+    if (initiateResult) {
+        res.json({ success: true });
+    } else {
+        res.status(500).json({ success: false });
+    }
+}
+
 
 module.exports = {
     checkConnection,
     clearDatabase,
-    rePopulateDatabase
+    rePopulateDatabase,
+    dropDatabase
 };
