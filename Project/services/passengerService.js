@@ -178,11 +178,47 @@ async function updatePassengerCategory(passengerId, passengerCategory) {
     });
 }
 
+async function updatePassenger(
+    passengerId,
+    firstName,
+    lastName,
+    passengerCategory
+) {
+    return await withOracleDB(async (connection) => {
+
+        const result = await connection.execute(
+            `
+            UPDATE Passenger
+            SET
+                FirstName = NVL(:firstName, FirstName),
+                LastName = NVL(:lastName, LastName),
+                PassengerCategory = NVL(:passengerCategory, PassengerCategory)
+            WHERE PassengerID = :passengerId
+            `,
+            {
+                firstName,
+                lastName,
+                passengerCategory,
+                passengerId
+            },
+            {
+                autoCommit: true
+            }
+        );
+
+        return result.rowsAffected > 0;
+
+    }).catch((err) => {
+        console.log("Error updating passenger:", err.message);
+        return false;
+    });
+}
 
 module.exports = {
     insertPassenger,
     getPassengerById,
     getAllPassengers,
-    updatePassengerCategory
+    updatePassengerCategory,
+    updatePassenger
 };
 

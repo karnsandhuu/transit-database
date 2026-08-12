@@ -18,4 +18,8 @@ router.patch(
     controller.updatePassengerCategory
 );
 
+router.put(
+    '/passengers/:passengerId',
+    controller.updatePassenger
+);
 module.exports = router;

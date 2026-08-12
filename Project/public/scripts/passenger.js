@@ -1,10 +1,17 @@
 (() => {
+    
 
     const messageElement =
         document.getElementById('passengerMessage');
 
     const passengerDetailsElement =
         document.getElementById('passengerDetails');
+    
+    console.log('passenger.js loaded');
+
+    console.log(
+        document.getElementById('updatePassengerForm')
+    );
 
     function escapeHtml(value) {
         return String(value ?? '')
@@ -342,6 +349,105 @@
                         error.message,'error');
                 }
             }
-        );
+    );
+
+
+document
+    .getElementById('updatePassengerMultForm')
+    .addEventListener(
+        'submit',
+        async event => {
+            console.log("MULT UPDATE SUBMITTED");
+            event.preventDefault();
+
+            try {
+                console.log("2: reading passenger ID");
+                const passengerId =
+                    requirePassengerId(
+                        document
+                            .getElementById('updatePassengerMultId')
+                            .value
+                    );
+                console.log("3: passenger ID =", passengerId);
+                const firstName =
+                    document
+                        .getElementById('updatePassengerFirstName')
+                        .value
+                        .trim() || null;
+                
+                console.log("4: first name =", firstName);
+                const lastName =
+                    document
+                        .getElementById('updatePassengerLastName')
+                        .value
+                        .trim() || null;
+                
+                console.log("5: last name =", lastName);
+                const passengerCategory =
+                    document
+                        .getElementById('updatePassengerCategory')
+                        .value || null;
+                
+                console.log(
+                    "6: category =",
+                    passengerCategory
+                );
+                // Make sure at least one attribute is being updated
+                if (
+                    firstName === null &&
+                    lastName === null &&
+                    passengerCategory === null
+                ) {
+                    throw new Error(
+                        'Please enter at least one value to update.'
+                    );
+                }
+
+                console.log("Updating passenger:", {
+                    passengerId,
+                    firstName,
+                    lastName,
+                    passengerCategory
+                });
+
+                const result =
+                    await request(
+                        `/passengers/${encodeURIComponent(passengerId)}`,
+                        {
+                            method: 'PUT',
+                            headers: {
+                                'Content-Type':
+                                    'application/json'
+                            },
+                            body: JSON.stringify({
+                                firstName,
+                                lastName,
+                                passengerCategory
+                            })
+                        }
+                    );
+
+                if (!result.success) {
+                    throw new Error(
+                        'Passenger could not be updated.'
+                    );
+                }
+
+                event.target.reset();
+
+                showMessage(
+                    `Passenger ${ passengerId } was updated successfully.`,
+                    'success'
+                );
+
+            } catch (error) {
+
+                showMessage(
+                    error.message,
+                    'error'
+                );
+            }
+        }
+    );   
 
 })();

@@ -186,6 +186,56 @@
     </div>
 
 </section>
+
+<hr>
+<section class="panel">
+
+    <h2>Update passenger</h2>
+
+    <p class="help-text">
+        Enter an existing passenger ID and update any of their information.
+    </p>
+
+    <form id="updatePassengerMultForm" class="form-grid">
+
+        <label>
+            Passenger ID
+
+            <input id="updatePassengerMultId" type="text" maxlength="10" placeholder="P000000001" required>
+        </label>
+
+        <label>
+            First name
+            <input id="updatePassengerFirstName" type="text" maxlength="20" placeholder="Leave blank to keep current name">
+        </label>
+
+        <label>
+            Last name
+            <input id="updatePassengerLastName" type="text" maxlength="20" placeholder="Leave blank to keep current name">
+        </label>
+
+        <label>
+            Passenger category
+
+            <select id="updatePassengerCategory">
+                <option value="">-- Keep current category --</option>
+                <option value="Adult">Adult</option>
+                <option value="Child">Child</option>
+                <option value="Senior">Senior</option>
+                <option value="Student">Student</option>
+            </select>
+        </label>
+
+        <div class="form-action">
+            <button type="submit">
+                Update passenger
+            </button>
+        </div>
+
+    </form>
+
+</section>
+
 <hr>
 <details class="panel">
 
@@ -200,13 +250,7 @@
         <label>
             Passenger ID
 
-            <input
-                id="updatePassengerId"
-                type="text"
-                maxlength="10"
-                placeholder="P000000001"
-                required
-            >
+            <input id="updatePassengerId" type="text" maxlength="10" placeholder="P000000001" required>
         </label>
 
         <label>
@@ -229,3 +273,4 @@
     </form>
 
 </details>
+

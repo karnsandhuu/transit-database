@@ -59,9 +59,33 @@ async function updatePassengerCategory(req, res) {
     }
 }
 
+async function updatePassenger(req, res) {
+    const { passengerId } = req.params;
+    const { firstName, lastName, passengerCategory } = req.body;
+
+    const success = await passengerService.updatePassenger(
+        passengerId,
+        firstName,
+        lastName,
+        passengerCategory
+    );
+
+    if (success) {
+        res.json({
+            success: true
+        });
+    } else {
+        res.status(404).json({
+            success: false,
+            message: "Passenger not found or unable to update passenger"
+        });
+    }
+}
+
 module.exports = {
     createPassenger,
     getPassenger,
-    updatePassengerCategory
+    updatePassengerCategory,
+    updatePassenger
 };
 
