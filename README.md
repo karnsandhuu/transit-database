@@ -181,6 +181,8 @@ This document shows the populated contents of all 15 database tables after baseD
 | T000000012 | P000000008 | 105.00 | Active | CURRENT_TIMESTAMP |
 | T000000013 | P000000009 | 55.00 | Active | CURRENT_TIMESTAMP |
 | T000000014 | P000000010 | 45.00 | Active | CURRENT_TIMESTAMP |
+| T000000015 | P000000003 | 105.00 | Active | CURRENT_TIMESTAMP |
+| T000000016 | P000000003 | 105.00 | Active | CURRENT_TIMESTAMP |
 
 ---
 
@@ -209,7 +211,8 @@ This document shows the populated contents of all 15 database tables after baseD
 | T000000008 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 1 day | Daily |
 | T000000011 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 1 day | Daily |
 | T000000013 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 7 days | Weekly |
-
+| T000000015 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 1 days | Daily |
+| T000000016 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 7 days | Weekly |
 ---
 
 ## 7. Route
@@ -472,7 +475,7 @@ ORDER BY
 ```
 The query finds stations served by at least the average number of distinct routes across all stations. It groups stations by their route count, compares each count to the overall average using a nested aggregation, drops the group of stations if it has a lower route count, and orders the results from highest to lowest route count.
 
-- **Division** — Counts passengers who have purchased both required pass types: Zone and Timed.
+- **Division** — Counts passengers who have purchased every required pass type: Zone, Daily, Weekly, and Monthly.
 
 ```
 SELECT COUNT(*) AS PassengerCount
@@ -483,9 +486,19 @@ WHERE NOT EXISTS (
         SELECT 'Zone' AS PassType
         FROM dual
 
-        UNION
+        UNION ALL
 
-        SELECT 'Timed' AS PassType
+        SELECT 'Daily' AS PassType
+        FROM dual
+
+        UNION ALL
+
+        SELECT 'Weekly' AS PassType
+        FROM dual
+
+        UNION ALL
+
+        SELECT 'Monthly' AS PassType
         FROM dual
     ) requiredTypes
     WHERE NOT EXISTS (
@@ -503,15 +516,19 @@ WHERE NOT EXISTS (
             )
             OR
             (
-                requiredTypes.PassType = 'Timed'
-                AND tp.TicketID IS NOT NULL
+                requiredTypes.PassType IN (
+                    'Daily',
+                    'Weekly',
+                    'Monthly'
+                )
+                AND tp.PassType = requiredTypes.PassType
             )
         )
     )
 )
 ```
 
-The query counts passengers who have purchased both a Zone pass and a Timed pass. It uses nested NOT EXISTS conditions to implement division, ensuring that each passenger has both a zone pass and a timed pass.
+The query counts passengers who have purchased at least one Zone pass, one Daily pass, one Weekly pass, and one Monthly pass. It uses nested NOT EXISTS conditions to implement relational division: for each passenger, the query checks that there is no required pass type that the passenger is missing.
 
 # AI Acknowledgements
 
@@ -574,3 +591,4 @@ As development progressed, these documents were co-edited by the student and AI 
 ### `SETUP.md`
 
 `SETUP.md` was generated with AI assistance based on the setup instructions provided in Tutorial 6. The generated documentation was then reviewed and edited by the student.
+
