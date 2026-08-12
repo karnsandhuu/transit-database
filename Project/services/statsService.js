@@ -132,6 +132,66 @@ async function getPassengersWithAllPassTypesCount() {
                 WHERE NOT EXISTS (
                     SELECT 1
                     FROM (
+                        SELECT 'Zone' AS PassType FROM dual
+                        UNION ALL
+                        SELECT 'Daily' AS PassType FROM dual
+                        UNION ALL
+                        SELECT 'Weekly' AS PassType FROM dual
+                        UNION ALL
+                        SELECT 'Monthly' AS PassType FROM dual
+                    ) requiredTypes
+                    WHERE NOT EXISTS (
+                        SELECT 1
+                        FROM Passes pa
+                        LEFT JOIN ZonePass zp
+                            ON pa.TicketID = zp.TicketID
+                        LEFT JOIN TimedPass tp
+                            ON pa.TicketID = tp.TicketID
+                        WHERE pa.PassengerID = p.PassengerID
+                        AND (
+                            (
+                                requiredTypes.PassType = 'Zone'
+                                AND zp.TicketID IS NOT NULL
+                            )
+                            OR
+                            (
+                                requiredTypes.PassType IN (
+                                    'Daily',
+                                    'Weekly',
+                                    'Monthly'
+                                )
+                                AND tp.PassType = requiredTypes.PassType
+                            )
+                        )
+                    )
+                )
+                `
+            );
+
+            return result.rows[0][0];
+
+        } catch (err) {
+            console.log(
+                "Error counting passengers with all pass types:",
+                err.message
+            );
+
+            return 0;
+        }
+    });
+}
+
+/*
+async function getPassengersWithAllPassTypesCount() {
+    return await withOracleDB(async (connection) => {
+        try {
+            const result = await connection.execute(
+                `
+                SELECT COUNT(*) AS PassengerCount
+                FROM Passenger p
+                WHERE NOT EXISTS (
+                    SELECT 1
+                    FROM (
                         SELECT 'Zone' AS PassType
                         FROM dual
 
@@ -175,7 +235,7 @@ async function getPassengersWithAllPassTypesCount() {
             return 0;
         }
     });
-}
+}*/
 
 module.exports = {
     getAverageSpendingByPassengerCategory,

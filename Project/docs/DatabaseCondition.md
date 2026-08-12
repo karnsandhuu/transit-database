@@ -63,6 +63,8 @@ This document shows the populated contents of all 15 database tables after baseD
 | T000000012 | P000000008 | 105.00 | Active | CURRENT_TIMESTAMP |
 | T000000013 | P000000009 | 55.00 | Active | CURRENT_TIMESTAMP |
 | T000000014 | P000000010 | 45.00 | Active | CURRENT_TIMESTAMP |
+| T000000015 | P000000003 | 105.00 | Active | CURRENT_TIMESTAMP |
+| T000000016 | P000000003 | 105.00 | Active | CURRENT_TIMESTAMP |
 
 ---
 
@@ -91,6 +93,8 @@ This document shows the populated contents of all 15 database tables after baseD
 | T000000008 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 1 day | Daily |
 | T000000011 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 1 day | Daily |
 | T000000013 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 7 days | Weekly |
+| T000000015 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 1 days | Daily |
+| T000000016 | CURRENT_TIMESTAMP | CURRENT_TIMESTAMP + 7 days | Weekly |
 
 ---
 
